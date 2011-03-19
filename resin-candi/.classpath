@@ -1,0 +1,14 @@
+<classpath>
+  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/cidadvocate/cdiadvocate-api/1.0-SNAPSHOT/cdiadvocate-api-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/cidadvocate/cdiadvocate-api/1.0-SNAPSHOT/cdiadvocate-api-1.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/osgi/osgi_R4_core/1.0/osgi_R4_core-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/caucho/resin/4.0.16/resin-4.0.16.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/caucho/resin-hessian/4.0.16/resin-hessian-4.0.16.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/caucho/resin-javaee/4.0.16/resin-javaee-4.0.16.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+</classpath>

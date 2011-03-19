@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.cidadvocate</groupId>
+    <artifactId>cdiadvocate-weld-impl</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.cdiadvocate</groupId>
+        <artifactId>cdiadvocate-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../parent</relativePath>
+    </parent>
+
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
+
+    <name>CDI Advocate APIs</name>
+
+    <!-- Minimal project metadata, for more see parent/pom.xml -->
+    <description>API Impl for JBoss Seam Weld</description>
+
+
+
+   <dependencies>
+      <dependency>
+         <groupId>org.jboss.weld.se</groupId>
+         <artifactId>weld-se-core</artifactId>
+         <version>1.1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-simple</artifactId>
+         <version>1.5.10</version>
+      </dependency>
+        <dependency>
+            <groupId>org.cidadvocate</groupId>
+            <artifactId>cdiadvocate-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+   </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>caucho.maven.repo</id>
+            <name>Caucho Repository</name>
+            <url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <repository>
+            <id>caucho.maven.repo.snapshot</id>
+            <name>Caucho Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+
+</project>
