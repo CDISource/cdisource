@@ -9,6 +9,7 @@
       <groupId>org.cdiadvocate</groupId>
       <artifactId>cdiadvocate-parent</artifactId>
       <version>1.0-SNAPSHOT</version>
+      <relativePath>parent</relativePath>
    </parent>
    
    <prerequisites>
