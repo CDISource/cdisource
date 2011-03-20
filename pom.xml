@@ -32,6 +32,7 @@
       <module>api</module>
       <module>resin-candi</module>
       <module>weld</module>
+      <module>junit</module>
    </modules>
 
 </project>
