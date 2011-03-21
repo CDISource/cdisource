@@ -590,9 +590,9 @@
   
    <distributionManagement>
       <repository>
-         <id>TBD</id>
-         <name>TBD</name>
-         <url>TBD</url>
+            <id>cdi.advocate</id>
+            <name>CDI Advocacy</name>
+            <url>http://jee6-cdi.googlecode.com/svn/m2/repository/</url>
       </repository>
       <snapshotRepository>
          <id>TBD</id>
@@ -600,6 +600,20 @@
          <url>TBD</url>
       </snapshotRepository>
    </distributionManagement>
+
+
+    <repositories>
+        <repository>
+            <id>cdi.advocate</id>
+            <name>CDI Advocacy</name>
+            <url>http://jee6-cdi.googlecode.com/svn/m2/repository/</url>
+        </repository>
+        <repository>
+            <id>caucho.maven.repo</id>
+            <name>Caucho Repository</name>
+            <url>http://caucho.com/m2</url>
+        </repository>
+    </repositories>
 
 
 </project>
