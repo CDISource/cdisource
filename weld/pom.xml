@@ -36,7 +36,7 @@
          <version>1.5.10</version>
       </dependency>
         <dependency>
-            <groupId>org.cidadvocate</groupId>
+            <groupId>org.cdiadvocate</groupId>
             <artifactId>cdiadvocate-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -45,14 +45,9 @@
 
     <repositories>
         <repository>
-            <id>caucho.maven.repo</id>
-            <name>Caucho Repository</name>
-            <url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <repository>
-            <id>caucho.maven.repo.snapshot</id>
-            <name>Caucho Repository</name>
-            <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+            <id>jboss.maven.repo</id>
+            <name>JBoss Repository</name>
+            <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
         </repository>
     </repositories>
 
