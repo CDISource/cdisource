@@ -10,6 +10,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Abstract container test that can be used to perform initial tests on a
+ * {@link BeanContainer} implementation. To use, just create a test case that
+ * extends this class and make sure an implementation is also in the project so
+ * it can load the {@link BeanContainer} instance.
+ * 
+ * @author Andy Gibson
+ * 
+ */
 public class AbstractBeanContainerTest {
 
 	private BeanContainer beanContainer;
@@ -81,8 +90,10 @@ public class AbstractBeanContainerTest {
 	@Test
 	public void shouldHaveSingletonItem() {
 		SimpleBean bean = beanContainer.getBeanByType(SimpleBean.class);
-		assertNotNull("Named bean not found",bean);
-		SingletonBean singleton = beanContainer.getBeanByType(SingletonBean.class);
-		assertEquals("Found non-equal instances of a singleton bean",bean.getSingletonBean(),singleton);
-	}	
+		assertNotNull("Named bean not found", bean);
+		SingletonBean singleton = beanContainer
+				.getBeanByType(SingletonBean.class);
+		assertEquals("Found non-equal instances of a singleton bean",
+				bean.getSingletonBean(), singleton);
+	}
 }

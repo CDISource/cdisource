@@ -3,6 +3,12 @@ package org.cdiadvocate.testing;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * Simple named bean for testing
+ * 
+ * @author Andy Gibson
+ *
+ */
 @Named("simpleBean")
 public class SimpleBean {
 

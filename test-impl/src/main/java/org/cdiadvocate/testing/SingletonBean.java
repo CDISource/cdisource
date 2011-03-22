@@ -1,7 +1,12 @@
 package org.cdiadvocate.testing;
 
 import javax.inject.Singleton;
-
+/**
+ * Singleton bean for testing CDI
+ * 
+ * @author Andy Gibson
+ *
+ */
 @Singleton
 public class SingletonBean {
 

@@ -7,6 +7,19 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
+/**
+ * Abstract implementation of the {@link BeanContainer} interface that
+ * implements the common lookup code once the container is initialized.
+ * <p/>
+ * Subclasses must implement the methods to actually startup and shutdown the
+ * container as well as locating an instance of the {@link BeanManager}.
+ * </p>
+ * This class also handles exceptions for when an attempt is made to call a
+ * method on an inititialized container.
+ * 
+ * @author Andy Gibson
+ * 
+ */
 public abstract class AbstractBeanContainer implements BeanContainer {
 
 	@Override
@@ -15,12 +28,12 @@ public abstract class AbstractBeanContainer implements BeanContainer {
 		if (name == null) {
 			throw new IllegalArgumentException("CDI Bean name cannot be null");
 		}
-		
-		
+
 		BeanManager beanManager = locateBeanManager();
 		Set<Bean<?>> beans = beanManager.getBeans(name);
 		if (beans.isEmpty()) {
-			throw new BeanNotFoundException("Could not locate a bean with name "+name);
+			throw new BeanNotFoundException(
+					"Could not locate a bean with name " + name);
 		}
 		Bean<?> bean = beanManager.resolve(beans);
 		CreationalContext<?> context = beanManager
@@ -28,24 +41,25 @@ public abstract class AbstractBeanContainer implements BeanContainer {
 		return beanManager.getReference(bean, bean.getBeanClass(), context);
 	}
 
-	
 	@Override
 	public <T> T getBeanByType(Class<T> type, Annotation... qualifiers) {
 		checkForInitialization();
 		if (type == null) {
 			throw new IllegalArgumentException("CDI Bean type cannot be null");
 		}
-		
+
 		BeanManager beanManager = locateBeanManager();
 		Set<Bean<?>> beans = beanManager.getBeans(type, qualifiers);
-		if (beans.isEmpty()) {			
-			throw new BeanNotFoundException("Could not locate a bean of type "+type.getName());
+		if (beans.isEmpty()) {
+			throw new BeanNotFoundException("Could not locate a bean of type "
+					+ type.getName());
 		}
 		Bean<?> bean = beanManager.resolve(beans);
 		CreationalContext<?> context = beanManager
 				.createCreationalContext(bean);
 		@SuppressWarnings("unchecked")
-		T result = (T) beanManager.getReference(bean, bean.getBeanClass(), context);
+		T result = (T) beanManager.getReference(bean, bean.getBeanClass(),
+				context);
 		return result;
 	}
 
