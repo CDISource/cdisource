@@ -7,5 +7,4 @@ public interface BeanContainer {
     public <T> T getBeanByType(Class<T> type, Annotation ...qualifiers);
     public void start();
     public void stop();
-    
 }

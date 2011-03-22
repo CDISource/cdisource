@@ -1,25 +1,29 @@
 package org.cdiadvocate.beancontainer;
 
-import java.lang.annotation.Annotation;
+import javax.enterprise.inject.spi.BeanManager;
 
-public class ResinBeanContainer implements BeanContainer {
-    com.caucho.resin.ResinBeanContainer delegate = new com.caucho.resin.ResinBeanContainer();
+public class ResinBeanContainer extends AbstractBeanContainer {
+	
+	com.caucho.resin.ResinBeanContainer delegate;
+	
+	@Override
+	protected BeanManager locateBeanManager() {
+		return delegate.getCdiManager();
+	}
 
-    public Object getBeanByName(String name) {
-        return delegate.getBeanByName(name);
-    }
+	@Override
+	protected boolean isInitialized() {
+		return delegate != null;
+	}
 
-    public <T> T getBeanByType(Class<T> type, Annotation... qualifiers) {
-        return delegate.getInstance(type, qualifiers);
-    }
-    @Override
-    public void start() {
-        delegate.start();
-    }
+	@Override
+	protected void doStart() {
+		delegate = new com.caucho.resin.ResinBeanContainer();
+		delegate.start();		
+	}
 
-    @Override
-    public void stop() {
-        delegate.close();
-    }
-
+	@Override
+	protected void doStop() {
+		delegate.close();		
+	}
 }

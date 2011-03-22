@@ -33,6 +33,8 @@
       <module>resin-candi</module>
       <module>weld</module>
       <module>junit</module>
+      <module>test-impl</module>
+      <module>openwebbeans</module>
    </modules>
 
 </project>
