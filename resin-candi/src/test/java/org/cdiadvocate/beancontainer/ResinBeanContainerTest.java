@@ -4,7 +4,7 @@ import org.cdiadvocate.testing.AbstractBeanContainerTest;
 import org.junit.Test;
 
 //this container is broken right now so I'm excluding it
-public class ResinBeanContainerTest { // extends AbstractBeanContainerTest {
+public class ResinBeanContainerTest extends AbstractBeanContainerTest {
 
 	@Test
 	public void dummy() {
