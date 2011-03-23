@@ -2,9 +2,6 @@ package org.cdiadvocate.beancontainer;
 
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.jboss.weld.Container;
-import org.jboss.weld.context.RequestContext;
-import org.jboss.weld.context.beanstore.HashMapBeanStore;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 

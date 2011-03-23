@@ -1,7 +1,5 @@
 package org.cdiadvocate.beancontainer;
 
-import java.lang.annotation.Annotation;
-
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.apache.webbeans.lifecycle.LifecycleFactory;
