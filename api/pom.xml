@@ -16,10 +16,19 @@
       <maven>3.0</maven>
    </prerequisites>
 
-   <name>CDI Advocate APIs</name>
+   <name>CDI Advocate API</name>
 
    <!-- Minimal project metadata, for more see parent/pom.xml -->
    <description>Base API for common bean container</description>
+   <dependencies>
+   	<dependency>
+   		<groupId>javax.enterprise</groupId>
+   		<artifactId>cdi-api</artifactId>
+   		<version>1.0-SP1</version>
+   		<type>jar</type>
+   		<scope>compile</scope>
+   	</dependency>
+   </dependencies>
 
 
 
