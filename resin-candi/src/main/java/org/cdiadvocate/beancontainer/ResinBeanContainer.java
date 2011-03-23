@@ -17,7 +17,7 @@ public class ResinBeanContainer extends AbstractBeanContainer {
 	}
 
 	@Override
-	protected void doStart() {
+	protected void doStart() throws Exception {
 		delegate = new com.caucho.resin.ResinBeanContainer();
 		delegate.start();		
 	}

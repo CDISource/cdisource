@@ -21,14 +21,10 @@ public class OpenWebBeansBeanContainer extends AbstractBeanContainer {
 	}
 
 	@Override
-	protected void doStart() {
+	protected void doStart() throws Exception {
 		lifecycle = LifecycleFactory.getInstance().getLifecycle();
-		try {
-			lifecycle.startApplication(null);
-			beanManager = lifecycle.getBeanManager();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		lifecycle.startApplication(null);
+		beanManager = lifecycle.getBeanManager();
 	}
 
 	@Override

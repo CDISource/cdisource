@@ -107,7 +107,13 @@ public abstract class AbstractBeanContainer implements BeanContainer {
             throw new IllegalStateException(
                     "CDI Environment has already been initialized");
         }
-        doStart();
+		try {
+			doStart();
+		} catch (Exception e) {
+			throw new BeanContainerInitializationException(
+					"Unable to start BeanContainer : " + e.getMessage(), e);
+		}
+
     }
 
     @Override
@@ -125,7 +131,7 @@ public abstract class AbstractBeanContainer implements BeanContainer {
      * assume that it has not already been initialized. Override to implement
      * the initialization for a particular CDI implementation.
      */
-    protected abstract void doStart();
+    protected abstract void doStart() throws Exception;
 
     /**
      * Performs the shutdown of the CDI environment. This method can assume that

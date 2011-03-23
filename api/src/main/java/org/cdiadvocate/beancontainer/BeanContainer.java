@@ -37,7 +37,11 @@ public interface BeanContainer {
     public <T> T getBeanByType(Class<T> type, Annotation ...qualifiers);
     
     /** Start the bean container. Gives the container a chance to scan the classpath looking
-     * for ./META-INF/beans.xml and setting up the beans to be vended. */
+     * for ./META-INF/beans.xml and setting up the beans to be vended.
+     * <p/>Throws a
+	 * {@link BeanContainerInitializationException} if there is a problem
+	 * initializing. 
+     * */
     public void start();
     /** Stops the bean container. Allows it to do clean up and call any needed callback methods, i.e., 
      * @PostConstruct on signletons*/

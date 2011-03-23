@@ -11,7 +11,7 @@ public class WeldBeanContainer extends AbstractBeanContainer {
 	Weld weld;
 
 	@Override
-	protected void doStart() {
+	protected void doStart() throws Exception {
 		weld = new Weld();
 		delegate = weld.initialize();
 	}
