@@ -17,83 +17,92 @@ import org.junit.Test;
  * it can load the {@link BeanContainer} instance.
  * 
  * @author Andy Gibson
+ * @author Rick Hightower
  * 
  */
 public class AbstractBeanContainerTest {
 
-	private BeanContainer beanContainer;
+    private BeanContainer beanContainer;
 
-	public BeanContainer getBeanContainer() {
-		return beanContainer;
-	}
+    public BeanContainer getBeanContainer() {
+        return beanContainer;
+    }
 
-	@Before
-	public void doBefore() {
-		beanContainer = BeanContainerManager.getInstance();
-		beanContainer.start();
-	}
+    @Before
+    public void doBefore() {
+        beanContainer = BeanContainerManager.getInstance();
+        beanContainer.start();
+    }
 
-	@After
-	public void doAfter() {
-		beanContainer.stop();
-	}
+    @After
+    public void doAfter() {
+        beanContainer.stop();
+    }
 
-	@Test
-	public void shouldInitContainer() {
-		assertNotNull("Bean container is not initialized", beanContainer);
-	}
+    @Test
+    public void shouldInitContainer() {
+        assertNotNull("Bean container is not initialized", beanContainer);
+    }
 
-	@Test
-	public void shouldGetBeanInstance() {
-		assertNotNull(beanContainer);
-		SimpleBean bean = beanContainer.getBeanByType(SimpleBean.class);
-		assertNotNull("Could not locate bean instance by type", bean);
-		assertNotNull("Bean hasn't had InjectedBean injected into it",
-				bean.getInjectedBean());
-	}
+    @Test
+    public void shouldGetBeanInstance() {
+        assertNotNull(beanContainer);
+        SimpleBean bean = beanContainer.getBeanByType(SimpleBean.class);
+        assertNotNull("Could not locate bean instance by type", bean);
+        assertNotNull("Bean hasn't had InjectedBean injected into it",
+                bean.getInjectedBean());
+    }
 
-	@Test
-	public void shouldGetBeanByName() {
-		assertNotNull(beanContainer);
-		SimpleBean bean = (SimpleBean) beanContainer
-				.getBeanByName("simpleBean");
-		assertNotNull("Could not locate bean instance by name", bean);
-	}
+    @Test
+    public void shouldGetBeanByName() {
+        assertNotNull(beanContainer);
+        SimpleBean bean = (SimpleBean) beanContainer
+                .getBeanByName("simpleBean");
+        assertNotNull("Could not locate bean instance by name", bean);
+    }
 
-	@Test(expected = IllegalStateException.class)
-	public void shouldThrowExceptionOnSecondStartup() {
-		beanContainer.start();
-	}
+    @Test
+    public void shouldGetBeanByNameNoCast() {
+        assertNotNull(beanContainer);
+        SimpleBean bean = beanContainer
+                .getBeanByName(SimpleBean.class, "simpleBean");
+        assertNotNull("Could not locate bean instance by name", bean);
+    }
 
-	@Test(expected = IllegalStateException.class)
-	public void shouldThrowExceptionFetchByNameWithoutStartup() {
-		BeanContainer second = BeanContainerManager.getInstance();
-		second.getBeanByName("somename");
-	}
+    @Test(expected = IllegalStateException.class)
+    public void shouldThrowExceptionOnSecondStartup() {
+        beanContainer.start();
+    }
 
-	@Test(expected = IllegalStateException.class)
-	public void shouldThrowExceptionOnSecondInstanceWithoutStartup() {
-		BeanContainer second = BeanContainerManager.getInstance();
-		second.getBeanByType(SimpleBean.class);
-	}
+    @Test(expected = IllegalStateException.class)
+    public void shouldThrowExceptionFetchByNameWithoutStartup() {
+        BeanContainer second = BeanContainerManager.getInstance();
+        second.getBeanByName("somename");
+    }
 
-	@Test(expected = BeanNotFoundException.class)
-	public void shouldThrowExceptionOnMissignBeanByName() {
-		beanContainer.getBeanByName("missing_bean_name");
-	}
+    @Test(expected = IllegalStateException.class)
+    public void shouldThrowExceptionOnSecondInstanceWithoutStartup() {
+        BeanContainer second = BeanContainerManager.getInstance();
+        second.getBeanByType(SimpleBean.class);
+    }
 
-	@Test(expected = BeanNotFoundException.class)
-	public void shouldThrowExceptionOnMissignBeanByType() {
-		beanContainer.getBeanByType(String.class);
-	}
+    @Test(expected = BeanNotFoundException.class)
+    public void shouldThrowExceptionOnMissignBeanByName() {
+        beanContainer.getBeanByName("missing_bean_name");
+    }
 
-	@Test
-	public void shouldHaveSingletonItem() {
-		SimpleBean bean = beanContainer.getBeanByType(SimpleBean.class);
-		assertNotNull("Named bean not found", bean);
-		SingletonBean singleton = beanContainer
-				.getBeanByType(SingletonBean.class);
-		assertEquals("Found non-equal instances of a singleton bean",
-				bean.getSingletonBean(), singleton);
-	}
+    @Test(expected = BeanNotFoundException.class)
+    public void shouldThrowExceptionOnMissignBeanByType() {
+        beanContainer.getBeanByType(String.class);
+    }
+
+    @Test
+    public void shouldHaveSingletonItem() {
+        SimpleBean bean = beanContainer.getBeanByType(SimpleBean.class);
+        assertNotNull("Named bean not found", bean);
+        SingletonBean singleton = beanContainer
+                .getBeanByType(SingletonBean.class);
+        assertEquals("Found non-equal instances of a singleton bean",
+                bean.getSingletonBean(), singleton);
+    }
 }
