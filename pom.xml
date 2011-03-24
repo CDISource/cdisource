@@ -33,7 +33,7 @@
       <module>beancontainer/resin-impl</module>
       <module>beancontainer/weld-impl</module>
       <module>beancontainer/testing</module>
-      <module>beancontainer/owb-impl</module>
+      <module>beancontainer/openwebbeans-impl</module>
 
       <module>testing/cdisource-junit</module>
    </modules>
