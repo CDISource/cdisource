@@ -30,13 +30,13 @@ public class AbstractBeanContainerTest {
 
     @Before
     public void doBefore() {
+    	BeanContainerManager.initialize();
         beanContainer = BeanContainerManager.getInstance();
-        beanContainer.start();
     }
 
     @After
     public void doAfter() {
-        beanContainer.stop();
+        BeanContainerManager.shutdown();
     }
 
     @Test
@@ -72,18 +72,6 @@ public class AbstractBeanContainerTest {
     @Test(expected = IllegalStateException.class)
     public void shouldThrowExceptionOnSecondStartup() {
         beanContainer.start();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void shouldThrowExceptionFetchByNameWithoutStartup() {
-        BeanContainer second = BeanContainerManager.getInstance();
-        second.getBeanByName("somename");
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void shouldThrowExceptionOnSecondInstanceWithoutStartup() {
-        BeanContainer second = BeanContainerManager.getInstance();
-        second.getBeanByType(SimpleBean.class);
     }
 
     @Test(expected = BeanNotFoundException.class)
