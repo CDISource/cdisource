@@ -29,11 +29,11 @@
    </scm>
 
    <modules>
-      <module>beancontainer/beancontainer-api</module>
-      <module>beancontainer/beancontainer-resin</module>
-      <module>beancontainer/beancontainer-weld</module>
-      <module>beancontainer/beancontainer-test</module>
-      <module>beancontainer/beancontainer-openwebbeans</module>
+      <module>beancontainer/api</module>
+      <module>beancontainer/resin-impl</module>
+      <module>beancontainer/weld-impl</module>
+      <module>beancontainer/testing</module>
+      <module>beancontainer/owb-impl</module>
 
       <module>testing/cdisource-junit</module>
    </modules>
