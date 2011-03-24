@@ -63,8 +63,7 @@ public class BeanContainerManager {
 	 * */
 	public static BeanContainer getInstance() {
 		if (instance == null) {
-			throw new IllegalStateException(
-					"BeanContainer instance has not been initialized, call BeanContainerManager.initialize() to initialize the bean container instance");
+			initialize();
 		}
 		return instance;
 	}

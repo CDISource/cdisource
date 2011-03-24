@@ -52,7 +52,6 @@ public class CdiTestRunner extends BlockJUnit4ClassRunner {
 	public static BeanContainer getBeanContainer() {
 		if (beanContainer == null) {
 			beanContainer = BeanContainerManager.getInstance();
-			beanContainer.start();
 		}
 		return beanContainer;
 	}
