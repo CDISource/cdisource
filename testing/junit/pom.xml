@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.cdiadvocate</groupId>
-		<artifactId>cdiadvocate-parent</artifactId>
+		<groupId>org.cdisource</groupId>
+		<artifactId>cdisource-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath>../parent</relativePath>
+		<relativePath>../../parent</relativePath>
 	</parent>
-	<groupId>org.cdiadvocate</groupId>
-	<artifactId>cdiadvocate-junit</artifactId>
+	<groupId>org.cdisource.testing</groupId>
+	<artifactId>cdisource-junit</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>CDI Advocate JUnit project</name>
+	<name>CDISource JUnit Test Runner</name>
 	<description>Project providing support for testing with CDI and Junit</description>
 	<dependencies>
 		<dependency>
@@ -22,15 +22,15 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.cdiadvocate</groupId>
-			<artifactId>cdiadvocate-api</artifactId>
+			<groupId>org.cdisource.beancontainer</groupId>
+			<artifactId>beancontainer-api</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.cdiadvocate</groupId>
-			<artifactId>cdiadvocate-weld-impl</artifactId>
+			<groupId>org.cdisource.beancontainer</groupId>
+			<artifactId>beancontainer-weld</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>

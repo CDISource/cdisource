@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <groupId>org.cdiadvocate</groupId>
-   <artifactId>cdi-advocate-api-build-aggregator</artifactId>
+   <groupId>org.cdisource.beancontainer</groupId>
+   <artifactId>cdisource-build-aggregator</artifactId>
    <packaging>pom</packaging>
    <version>1.0-SNAPSHOT</version>
 
    <parent>
-      <groupId>org.cdiadvocate</groupId>
-      <artifactId>cdiadvocate-parent</artifactId>
+      <groupId>org.cdisource</groupId>
+      <artifactId>cdisource-parent</artifactId>
       <version>1.0-SNAPSHOT</version>
       <relativePath>parent</relativePath>
    </parent>
@@ -16,7 +16,7 @@
       <maven>3.0</maven>
    </prerequisites>
 
-   <name>CDI Advocate APIs Build Aggregator</name>
+   <name>CDISource Project Build Aggregator</name>
 
    <!-- Minimal project metadata, for more see parent/pom.xml -->
    <description>The build aggregator for CDI Advocate APIs, which takes care of calling the modules which make up CDI Advocate APIs</description>
@@ -29,12 +29,12 @@
    </scm>
 
    <modules>
-      <module>api</module>
-      <module>resin-candi</module>
-      <module>weld</module>
-      <module>junit</module>
-      <module>test-impl</module>
-      <module>openwebbeans</module>
+      <module>beancontainer/api</module>
+      <module>beancontainer/resin</module>
+      <module>beancontainer/weld</module>
+      <module>testing/junit</module>
+      <module>beancontainer/test-impl</module>
+      <module>beancontainer/openwebbeans</module>
    </modules>
 
 </project>

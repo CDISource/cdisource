@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.cdiadvocate</groupId>
-    <artifactId>cdiadvocate-weld-impl</artifactId>
+    <groupId>org.cdisource.beancontainer</groupId>
+    <artifactId>beancontainer-weld</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
-        <groupId>org.cdiadvocate</groupId>
-        <artifactId>cdiadvocate-parent</artifactId>
+        <groupId>org.cdisource</groupId>
+        <artifactId>cdisource-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../parent</relativePath>
+        <relativePath>../../parent</relativePath>
     </parent>
 
     <prerequisites>
@@ -36,8 +36,8 @@
          <version>1.5.10</version>
       </dependency>
         <dependency>
-            <groupId>org.cdiadvocate</groupId>
-            <artifactId>cdiadvocate-api</artifactId>
+            <groupId>org.cdisource.beancontainer</groupId>
+            <artifactId>beancontainer-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -48,8 +48,8 @@
         	<scope>test</scope>
         </dependency>
         <dependency>
-        	<groupId>org.cdiadvocate</groupId>
-        	<artifactId>cdiadvocate-test-impl</artifactId>
+        	<groupId>org.cdisource.beancontainer</groupId>
+        	<artifactId>beancontainer-test</artifactId>
         	<version>1.0-SNAPSHOT</version>
         	<type>jar</type>
         	<scope>test</scope>

@@ -1,22 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <groupId>org.cdiadvocate</groupId>
-   <artifactId>cdiadvocate-api</artifactId>
+   <groupId>org.cdisource.beancontainer</groupId>
+   <artifactId>beancontainer-api</artifactId>
    <packaging>jar</packaging>
+   <name>BeanContainer API</name>
    <version>1.0-SNAPSHOT</version>
 
    <parent>
-      <groupId>org.cdiadvocate</groupId>
-      <artifactId>cdiadvocate-parent</artifactId>
+      <groupId>org.cdisource</groupId>
+      <artifactId>cdisource-parent</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <relativePath>../parent</relativePath>
+      <relativePath>../../parent</relativePath>
    </parent>
    
    <prerequisites>
       <maven>3.0</maven>
    </prerequisites>
 
-   <name>CDI Advocate API</name>
 
    <!-- Minimal project metadata, for more see parent/pom.xml -->
    <description>Base API for common bean container</description>
