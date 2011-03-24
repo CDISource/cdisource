@@ -4,22 +4,22 @@ import java.util.Properties;
 import java.util.ServiceLoader;
 
 /**
- * Manager that provides access to the CDI implementation on the classpath by
- * returning an instance of the {@link BeanContainer} that represents that
- * implementation.
+ * Thread safe Bean Container Manager that provides access to the CDI
+ * implementation on the classpath by returning an instance of the
+ * {@link BeanContainer} that represents that implementation.
  * <p>
- * You can swap out the BeanContainer just by including the right jar file
- * implementation in your project.
+ * You can swap out the BeanContainer just by including the BeanContainer jar
+ * file for a specific implementation in your project.
  * </p>
  * <p>
  * We look for a file under classpath/META-INF/services called
- * ororg.cdisource.container.BeanContainer.
+ * org.cdisource.beancontainer.BeanContainer.
  * </p>
  * This file has one of three values:
  * <ol>
- * <li>org.org.cdisource.ntainer.ResinBeanContainer</li>
- * <li>org.cdorg.cdisource.ainer.OpenWebBeansBeanContainer</li>
- * <li>org.cdisorg.cdisource.ner.WeldBeanContainer</li>
+ * <li>org.cdisource.beancontainer.ResinBeanContainer</li>
+ * <li>org.cdisource.beancontainer.OpenWebBeansBeanContainer</li>
+ * <li>org.cdisource.beancontainer.WeldBeanContainer</li>
  * </ol>
  * 
  * 
@@ -28,7 +28,7 @@ import java.util.ServiceLoader;
  * 
  * </p>
  * 
- * <code>$ java -Dorg.cdi.advocacy.BeanContainer=org.cdisouorg.cdisource.r.ResinBeanContainer</code>
+ * <code>$ java -Dorg.cdisource.beancontainer.BeanContainer=org.cdisource.beancontainer.ResinBeanContainer</code>
  * 
  * <p>
  * </p>
@@ -36,18 +36,35 @@ import java.util.ServiceLoader;
  * @see java.util.ServiceLoader.
  * 
  * @author Rick Hightower
+ * @author Andy Gibson
  * 
  */
 public class BeanContainerManager {
+
 	/** Property name that we use to look up the bean container override. */
 	public static String PROP_NAME = "org.cdi.advocacy.BeanContainer";
 
+	/**
+	 * Holds a singleton instance of a {@link BeanContainer}
+	 */
 	private static BeanContainer instance;
 
+	/**
+	 * Thread safe method to create and initialize the {@link BeanContainer}
+	 * implementation on the classpath.
+	 * 
+	 */
 	public static void initialize() {
 		initialize(System.getProperties());
 	}
 
+	/**
+	 * Thread safe method to create and initialize the {@link BeanContainer}
+	 * implementation on the classpath.
+	 * 
+	 * @param properties
+	 *            Properties to use for initialization
+	 */
 	public synchronized static void initialize(Properties properties) {
 		if (instance != null) {
 			return;
@@ -57,9 +74,17 @@ public class BeanContainerManager {
 	}
 
 	/**
-	 * Get the bean container instance using system properties.
+	 * Get the bean container instance using system properties. If this method
+	 * is called before one of the initialize methods is called, then the
+	 * manager creates and initializes a {@link BeanContainer} instance to
+	 * return.
+	 * <p/>
+	 * Auto initializing this way means that we can call the getter from
+	 * anywhere without being totally concerned about who or where the container
+	 * is initialized.
 	 * 
 	 * @see BeanContainerManager.PROP_NAME
+	 * @see {@link BeanContainerManager#initialize()}
 	 * */
 	public static BeanContainer getInstance() {
 		if (instance == null) {
@@ -68,26 +93,37 @@ public class BeanContainerManager {
 		return instance;
 	}
 
+	/**
+	 * Thread safe method to create a new instance of a {@link BeanContainer}
+	 * and start it up and make it available through the
+	 * <code>getInstance()</code> method.
+	 * 
+	 * @param properties
+	 *            Properties to use for initialization
+	 */
 	private synchronized static void startUpInstance(Properties properties) {
-		// check once more that the instance is null, someone might have created
+		// double check that the instance is null, someone might have created
 		// it while we were entering this method.
 		if (instance != null) {
 			return;
 		}
-		generateInstance(properties);
+		instance = generateInstance(properties);
 		if (instance != null) {
 			instance.start();
 		}
 	}
 
-	private synchronized static void generateInstance(Properties properties) {
-		// check once more that the instance is null, someone might have created
-		// it while we were entering this method. Since this is a private
-		// method, we shouldn't need to worry about it
-		if (instance != null) {
-			return;
-		}
-
+	/**
+	 * Internal method to create a new instance of a {@link BeanContainer}
+	 * implementation. The returned container would not have been initialized
+	 * yet.
+	 * 
+	 * @param properties
+	 *            Properties to use for initialization
+	 * @return new instance of a {@link BeanContainer} implementation which has
+	 *         not yet been started.
+	 */
+	private static BeanContainer generateInstance(Properties properties) {
 		try {
 			/* The property should override the ServiceLoader if found. */
 			String beanContainerClassName = properties.getProperty(PROP_NAME);
@@ -97,8 +133,8 @@ public class BeanContainerManager {
 				ServiceLoader<BeanContainer> instances = ServiceLoader
 						.load(BeanContainer.class);
 				if (instances.iterator().hasNext()) {
-					instance = instances.iterator().next();
-					return;
+					return instances.iterator().next();
+
 				}
 			}
 
@@ -117,14 +153,18 @@ public class BeanContainerManager {
 					.getContextClassLoader();
 			Class<?> clazz = Class.forName(beanContainerClassName, true,
 					contextClassLoader);
-			instance = (BeanContainer) clazz.newInstance();
-			return;
+			return (BeanContainer) clazz.newInstance();
 
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 
+	/**
+	 * Thread safe method to shutdown the {@link BeanContainer} instance and
+	 * invalidate it. Further calls to get an instance or initialize will create
+	 * a new instance.
+	 */
 	public static synchronized void shutdown() {
 		if (instance != null) {
 			instance.stop();
