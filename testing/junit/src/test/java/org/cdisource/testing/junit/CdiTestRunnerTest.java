@@ -1,4 +1,4 @@
-package org.cdisource.junit;
+package org.cdisource.testing.junit;
 
 import javax.inject.Inject;
 

@@ -35,7 +35,7 @@
       <module>beancontainer/testing</module>
       <module>beancontainer/openwebbeans-impl</module>
 
-      <module>testing/cdisource-junit</module>
+      <module>testing/junit</module>
    </modules>
 
 </project>

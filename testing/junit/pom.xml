@@ -8,7 +8,7 @@
 		<relativePath>../../parent</relativePath>
 	</parent>
 	<groupId>org.cdisource.testing</groupId>
-	<artifactId>cdisource-junit</artifactId>
+	<artifactId>cdisource-testing-junit</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<name>CDISource JUnit Test Runner</name>
 	<description>Project providing support for testing with CDI and Junit</description>
