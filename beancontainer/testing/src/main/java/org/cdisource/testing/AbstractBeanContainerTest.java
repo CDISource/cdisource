@@ -1,7 +1,9 @@
 package org.cdisource.testing;
 
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 import org.cdisource.beancontainer.BeanContainer;
 import org.cdisource.beancontainer.BeanContainerManager;
@@ -92,5 +94,12 @@ public class AbstractBeanContainerTest {
                 .getBeanByType(SingletonBean.class);
         assertEquals("Found non-equal instances of a singleton bean",
                 bean.getSingletonBean(), singleton);
+    }
+    
+    @Test
+    public void testSimpleNameSpaces() {
+    	Object bean = beanContainer.getBeanNamespace().findObject("simpleBean");    	
+    	assertNotNull(bean);
+    	assertTrue("Cannot locate simpleBean ",beanContainer.getBeanNamespace().contains("simpleBean"));
     }
 }
