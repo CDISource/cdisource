@@ -18,6 +18,7 @@
         <maven>3.0</maven>
     </prerequisites>
 
+<<<<<<< HEAD
 
     <!-- Minimal project metadata, for more see parent/pom.xml -->
     <description>Base API for common bean container</description>
@@ -36,6 +37,26 @@
             </exclusions>
         </dependency>
     </dependencies>
+=======
+   <!-- Minimal project metadata, for more see parent/pom.xml -->
+   <description>Base API for common bean container</description>
+   <dependencies>
+   	<dependency>
+   		<groupId>javax.enterprise</groupId>
+   		<artifactId>cdi-api</artifactId>
+   		<version>1.0-SP1</version>
+   		<type>jar</type>
+   		<scope>compile</scope>
+   	</dependency>
+   	<dependency>
+   		<groupId>junit</groupId>
+   		<artifactId>junit</artifactId>
+   		<version>4.8.2</version>
+   		<type>jar</type>
+   		<scope>test</scope>
+   	</dependency>
+   </dependencies>
+>>>>>>> andygibson/namespace_impl
 
 
 

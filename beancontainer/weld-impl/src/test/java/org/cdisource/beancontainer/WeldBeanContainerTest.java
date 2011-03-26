@@ -12,3 +12,4 @@ import org.cdisource.testing.AbstractBeanContainerTest;
 public class WeldBeanContainerTest extends AbstractBeanContainerTest {
 
 }
+
