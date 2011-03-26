@@ -37,6 +37,7 @@
       <module>beancontainer/openwebbeans-impl</module>
 
       <module>testing/junit</module>
+      <module>web</module>
    </modules>
 
 </project>
