@@ -62,7 +62,7 @@ public interface BeanContainer {
 	 * Stops the bean container. Allows it to do clean up and call any needed
 	 * callback methods, i.e.,
 	 * 
-	 * @PostConstruct on signletons
+	 * @PostConstruct on singletons
 	 */
 	public void stop();
 
