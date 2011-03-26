@@ -29,6 +29,7 @@
    </scm>
 
    <modules>
+      <module>parent</module>
       <module>beancontainer/api</module>
       <module>beancontainer/resin-impl</module>
       <module>beancontainer/weld-impl</module>
