@@ -30,7 +30,31 @@
             <groupId>com.caucho</groupId>
             <artifactId>resin</artifactId>
             <version>4.0.16</version>
+            <exclusions>
+
+                <exclusion>
+                    <groupId>com.caucho</groupId>
+                    <artifactId>resin-hessian</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.osgi</groupId>
+                    <artifactId>osgi_R4_core</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>javax.mail</groupId>
+                    <artifactId>mail</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                </exclusion>
+
+            </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.cdisource.beancontainer</groupId>
             <artifactId>beancontainer-api</artifactId>

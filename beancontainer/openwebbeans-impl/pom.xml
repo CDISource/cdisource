@@ -1,64 +1,71 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.cdisource.beancontainer</groupId>
-	<artifactId>beancontainer-openwebbeans-impl</artifactId>
-	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.cdisource.beancontainer</groupId>
+    <artifactId>beancontainer-openwebbeans-impl</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
 
-	<parent>
-		<groupId>org.cdisource</groupId>
-		<artifactId>cdisource-parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
-		<relativePath>../../parent</relativePath>
-	</parent>
+    <parent>
+        <groupId>org.cdisource</groupId>
+        <artifactId>cdisource-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../../parent</relativePath>
+    </parent>
 
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
 
-	<name>OpenWebBeans Bean Container Implementation</name>
+    <name>OpenWebBeans Bean Container Implementation</name>
 
-	<!-- Minimal project metadata, for more see parent/pom.xml -->
-	<description>API Impl for Apache OpenWebBeans</description>
+    <!-- Minimal project metadata, for more see parent/pom.xml -->
+    <description>API Impl for Apache OpenWebBeans</description>
 
 
 
-	<dependencies>
-		<dependency>
-			<groupId>org.cdisource.beancontainer</groupId>
-			<artifactId>beancontainer-api</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openwebbeans</groupId>
-			<artifactId>openwebbeans-impl</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openwebbeans</groupId>
-			<artifactId>openwebbeans-spi</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.cdisource.beancontainer</groupId>
+            <artifactId>beancontainer-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.openwebbeans</groupId>
+            <artifactId>openwebbeans-impl</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.openwebbeans</groupId>
+            <artifactId>openwebbeans-spi</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-jcdi_1.0_spec</artifactId>
-			<version>1.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jcdi_1.0_spec</artifactId>
+            <version>1.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.cdisource.beancontainer</groupId>
-			<artifactId>beancontainer-test</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.cdisource.beancontainer</groupId>
+            <artifactId>beancontainer-test</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-interceptor_1.1_spec</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
 
 
 
