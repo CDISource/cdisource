@@ -94,6 +94,11 @@ public abstract class AbstractBeanContainer implements BeanContainer {
 	 * @return The bean manager instance
 	 */
 	protected abstract BeanManager locateBeanManager();
+	
+	@Override
+	public BeanManager getBeanManager() {
+		return locateBeanManager();
+	}
 
 	/**
 	 * Returns true if and only if the CDI environment has been initialized and

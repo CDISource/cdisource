@@ -3,6 +3,7 @@ package org.cdisource.beancontainer;
 import java.lang.annotation.Annotation;
 
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 
 import org.cdisource.beancontainer.namespace.BeanNamespace;
 
@@ -77,5 +78,14 @@ public interface BeanContainer {
 	 *         beans.
 	 */
 	public BeanNamespace getBeanNamespace();
+
+	/**
+	 * Returns the underlying {@link BeanManager} instance for this
+	 * implementation of CDI.
+	 * 
+	 * @return Instance of the {@link BeanManager} implemented by this CDI
+	 *         implementation.
+	 */
+	public BeanManager getBeanManager();
 
 }
