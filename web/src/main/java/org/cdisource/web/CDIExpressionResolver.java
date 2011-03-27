@@ -56,7 +56,7 @@ public class CDIExpressionResolver extends ELResolver {
 
 		// if we found a bean, extract it
 		if (result instanceof Bean) {
-			Bean<?> bean = (Bean) result;
+			Bean<?> bean = (Bean<?>) result;
 			BeanManager bm = container.getBeanManager();
 			CreationalContext<?> creationalContext = bm
 					.createCreationalContext(bean);

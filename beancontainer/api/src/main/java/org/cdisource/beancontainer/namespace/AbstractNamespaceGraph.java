@@ -33,6 +33,7 @@ public class AbstractNamespaceGraph<T> {
 	 * @param name
 	 * @param object
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addObject(String name, T object) {
 		if (name == null) {
 			throw new IllegalArgumentException("Object name cannot be null");
@@ -77,6 +78,7 @@ public class AbstractNamespaceGraph<T> {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public T findObject(String expression) {
 		String[] path = splitName(expression);
 		AbstractNamespaceGraph node = this;
@@ -100,6 +102,7 @@ public class AbstractNamespaceGraph<T> {
 			Object v = children.get(k);
 			System.out.println(indent + k + " - " + v);
 			if (v instanceof AbstractNamespaceGraph) {
+				@SuppressWarnings("rawtypes")
 				AbstractNamespaceGraph bn = (AbstractNamespaceGraph) v;
 				bn.dump(indent + "  ");
 			}

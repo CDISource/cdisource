@@ -1,5 +1,7 @@
 package org.cdisource.beancontainer;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Properties;
 import java.util.ServiceLoader;
 
@@ -130,29 +132,38 @@ public class BeanContainerManager {
 
 			/* If the property was not found, use the service loader. */
 			if (beanContainerClassName == null) {
-				ServiceLoader<BeanContainer> instances = ServiceLoader
-						.load(BeanContainer.class);
+				ServiceLoader<BeanContainer> instances = ServiceLoader.load(BeanContainer.class);
 				if (instances.iterator().hasNext()) {
 					return instances.iterator().next();
 
 				}
 			}
 
-			/*
-			 * If class property not found in the passed properties, then Resin
-			 * is the default for now, we may switch to the RI.
-			 */
-			beanContainerClassName = beanContainerClassName != null ? beanContainerClassName
-					: "org.cdisource.beancontainer.WeldBeanContainer";
+			if (beanContainerClassName == null) {
+				StringWriter stringWriter = new StringWriter();
+				PrintWriter out = new PrintWriter(stringWriter);
+				out.println("Unable to find a BeanContainer on your classpath");
+				out
+						.println("Expecting to find beancontainer-weld-impl.jar that has org.cdisource.beancontainer.WeldBeanContainer.");
+				out
+						.println("OR, Expecting to find beancontainer-resin-impl.jar that has org.cdisource.beancontainer.ResinBeanContainer.");
+				out
+						.println("OR, Expecting to find beancontainer-openwebbeans-impl.jar that has org.cdisource.beancontainer.OpenWebBeansBeanContainer.");
+				out
+						.println("OR, Expecting to find some class that implements org.cdisource.beancontainer.BeanContainer on the classpath");
+				out
+						.println("with a META-INF/services/org.cdisource.beancontainer.BeanContainer file that has a single line which is the implementation.");
+				out
+						.println(" If this error message does not make sense refer to the JavaDoc for org.cdisource.beancontainer.BeanContainerManager.");
+				throw new IllegalStateException(stringWriter.toString());
+			}
 
 			/*
 			 * Get the classloader associated with the current webapp and not
 			 * the global classloader
 			 */
-			ClassLoader contextClassLoader = Thread.currentThread()
-					.getContextClassLoader();
-			Class<?> clazz = Class.forName(beanContainerClassName, true,
-					contextClassLoader);
+			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+			Class<?> clazz = Class.forName(beanContainerClassName, true, contextClassLoader);
 			return (BeanContainer) clazz.newInstance();
 
 		} catch (Exception ex) {
