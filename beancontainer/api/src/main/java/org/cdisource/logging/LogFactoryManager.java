@@ -4,6 +4,12 @@ import java.util.ServiceLoader;
 
 import org.cdisource.beancontainer.BeanContainer;
 
+/**
+ * Our very own logging fetish.
+ * 
+ * @author Rick Hightower
+ *
+ */
 public class LogFactoryManager {
 	public static String PROP_NAME = "org.cdisource.logging.LogFactory";
 
@@ -29,10 +35,20 @@ public class LogFactoryManager {
 		return logFactory;
 	}
 	
+	/** Helper methods to look up the logger.
+	 * 
+	 * @param name name of the logger
+	 * @return the logger
+	 */
 	public static Logger logger(String name) {
 		return getInstance().getLogger(name);
 	}
 
+	/**
+	 * Helper method to look up the logger for a class
+	 * @param clazz class associated with the logger
+	 * @return the logger
+	 */
 	public static Logger logger(Class<?> clazz) {
 		return getInstance().getLogger(clazz);
 	}

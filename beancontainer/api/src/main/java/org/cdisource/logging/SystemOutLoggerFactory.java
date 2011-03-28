@@ -1,5 +1,11 @@
 package org.cdisource.logging;
 
+/**
+ * Simple logger for using System.out without worrying about logging configuration.
+ * @author Rick Hightower
+ *
+ *@see SystemOutLoggerFactory
+ */
 public class SystemOutLoggerFactory implements LogFactory {
 
 	@Override

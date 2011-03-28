@@ -3,6 +3,12 @@ package org.cdisource.logging;
 import java.io.Serializable;
 import java.util.logging.Level;
 
+/**
+ * This is our default logger, it uses JDK logging underneath.
+ * 
+ * @author Rick Hightower
+ *
+ */
 public class JDKLogger implements Logger, Serializable{
 	java.util.logging.Logger delegate;
 	

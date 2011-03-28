@@ -1,5 +1,10 @@
 package org.cdisource.logging;
 
+/**
+ * Our logging interface. Simple and direct.
+ * @author Rick Hightower
+ *
+ */
 public interface Logger {
 	void severe (String msg, Object... args);
 	void warning (String msg, Object... args);

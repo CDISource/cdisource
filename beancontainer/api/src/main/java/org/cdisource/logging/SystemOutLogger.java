@@ -4,6 +4,20 @@ import java.io.Serializable;
 
 import static org.cdisource.logging.LogLevel.*;
 
+/**
+ * Useful for when debugging. Sometimes getting log config to do what you want is hard.
+ * This is as easy as putting the following two props on your command line:
+ * <p>
+ * </p>
+ * 
+ * -Dorg.cdisource.logging.LogLevel=DEBUG -Dorg.cdisource.logging.LogFactory=org.cdisource.logging.SystemOutLoggerFactory
+ * <p>
+ * The above is to set the level to DEBUG. The level defaults to INFO.
+ * </p>
+ * @see LogLevel
+ * @author Rick Hightower
+ *
+ */
 public class SystemOutLogger implements Logger, Serializable {
 
 	/**

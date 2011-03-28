@@ -1,5 +1,10 @@
 package org.cdisource.logging;
 
+/**
+ * This is our default log factory. It uses the JDK logging.
+ * @author Rick Hightower.
+ *
+ */
 public class JDKLoggerFactory implements LogFactory {
 
 	@Override
