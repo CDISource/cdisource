@@ -22,11 +22,11 @@
    <description>The build aggregator for CDI Advocate APIs, which takes care of calling the modules which make up CDI Advocate APIs</description>
 
    <!-- SCM and Distribution management -->
-   <scm>
-      <connection>TBD</connection>
-      <developerConnection>TBD</developerConnection>
-      <url>TBD</url>
-   </scm>
+	<scm>
+		<connection>scm:git:git://github.com/cdisource/cdisource.git</connection>
+		<url>http://github.com/cdisource/cdisource</url>
+		<developerConnection>scm:git:git@github.com:cdisource/cdisource.git</developerConnection>
+	</scm>
 
    <modules>
       <module>parent</module>
