@@ -3,12 +3,12 @@
 	<parent>
 		<groupId>org.cdisource</groupId>
 		<artifactId>cdisource-parent</artifactId>
-		<version>0.9-Beta2-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 		<relativePath>../../parent</relativePath>
 	</parent>
 	<groupId>org.cdisource.testing</groupId>
 	<artifactId>cdisource-testing-junit</artifactId>
-	<version>0.9-Beta2-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>CDISource JUnit Test Runner</name>
 	<description>Project providing support for testing with CDI and Junit</description>
 	<dependencies>
@@ -23,14 +23,14 @@
 		<dependency>
 			<groupId>org.cdisource.beancontainer</groupId>
 			<artifactId>beancontainer-api</artifactId>
-			<version>0.9-Beta2-SNAPSHOT</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.cdisource.beancontainer</groupId>
 			<artifactId>beancontainer-weld-impl</artifactId>
-			<version>0.9-Beta2-SNAPSHOT</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>

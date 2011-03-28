@@ -3,12 +3,12 @@
    <groupId>org.cdisource.beancontainer</groupId>
    <artifactId>cdisource-build-aggregator</artifactId>
    <packaging>pom</packaging>
-   <version>0.9-Beta2-SNAPSHOT</version>
+   <version>1.0-SNAPSHOT</version>
 
    <parent>
       <groupId>org.cdisource</groupId>
       <artifactId>cdisource-parent</artifactId>
-      <version>0.9-Beta2-SNAPSHOT</version>
+      <version>1.0-SNAPSHOT</version>
       <relativePath>parent</relativePath>
    </parent>
    
@@ -23,9 +23,9 @@
 
    <!-- SCM and Distribution management -->
 	<scm>
-		<connection>scm:git:git://github.com/cdisource/cdisource.git</connection>
-		<url>http://github.com/cdisource/cdisource</url>
-		<developerConnection>scm:git:git@github.com:cdisource/cdisource.git</developerConnection>
+		<connection>scm:git:git://github.com/CDISource/cdisource.git</connection>
+		<url>http://github.com/CDISource/cdisource</url>
+		<developerConnection>scm:git:git@github.com:CDISource/cdisource.git</developerConnection>
 	</scm>
 
    <modules>
@@ -39,5 +39,9 @@
       <module>testing/junit</module>
       <module>web</module>
    </modules>
+   
+   <build>
+   <finalName>cdisource-${build.version}</finalName>
+   </build>
 
 </project>

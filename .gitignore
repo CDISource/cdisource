@@ -3,4 +3,7 @@ pom.xml~
 .classpath
 .settings/
 target/
+release.properties
+*.releaseBackup
+*.versionsBackup
 

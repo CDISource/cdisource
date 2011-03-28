@@ -3,12 +3,12 @@
     <groupId>org.cdisource.beancontainer</groupId>
     <artifactId>beancontainer-weld-impl</artifactId>
     <packaging>jar</packaging>
-    <version>0.9-Beta2-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <parent>
         <groupId>org.cdisource</groupId>
         <artifactId>cdisource-parent</artifactId>
-        <version>0.9-Beta2-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
         <relativePath>../../parent</relativePath>
     </parent>
 
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.cdisource.beancontainer</groupId>
             <artifactId>beancontainer-api</artifactId>
-            <version>0.9-Beta2-SNAPSHOT</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
         	<groupId>junit</groupId>
@@ -49,7 +49,7 @@
         <dependency>
         	<groupId>org.cdisource.beancontainer</groupId>
         	<artifactId>beancontainer-test</artifactId>
-        	<version>0.9-Beta2-SNAPSHOT</version>
+        	<version>1.0-SNAPSHOT</version>
         	<type>jar</type>
         	<scope>test</scope>
         </dependency>
