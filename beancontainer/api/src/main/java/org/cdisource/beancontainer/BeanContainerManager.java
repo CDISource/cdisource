@@ -5,6 +5,11 @@ import java.io.StringWriter;
 import java.util.Properties;
 import java.util.ServiceLoader;
 
+import org.cdisource.logging.Logger;
+
+import static org.cdisource.logging.LogFactoryManager.logger;
+
+
 /**
  * Thread safe Bean Container Manager that provides access to the CDI
  * implementation on the classpath by returning an instance of the
@@ -43,8 +48,11 @@ import java.util.ServiceLoader;
  */
 public class BeanContainerManager {
 
+	/** Logger */
+	private static Logger log = logger(BeanContainerManager.class);
+	
 	/** Property name that we use to look up the bean container override. */
-	public static String PROP_NAME = "org.cdi.advocacy.BeanContainer";
+	public static String PROP_NAME = "org.cdisource.beancontainer.BeanContainer";
 
 	/**
 	 * Holds a singleton instance of a {@link BeanContainer}
@@ -57,6 +65,7 @@ public class BeanContainerManager {
 	 * 
 	 */
 	public static void initialize() {
+		log.trace("initialize() called using system properties %s", System.getProperties());
 		initialize(System.getProperties());
 	}
 
@@ -68,6 +77,8 @@ public class BeanContainerManager {
 	 *            Properties to use for initialization
 	 */
 	public synchronized static void initialize(Properties properties) {
+		log.trace("initialize() called using properties %s", properties);
+
 		if (instance != null) {
 			return;
 		}
@@ -89,9 +100,12 @@ public class BeanContainerManager {
 	 * @see {@link BeanContainerManager#initialize()}
 	 * */
 	public static BeanContainer getInstance() {
+		log.trace("getInstance() called");
 		if (instance == null) {
+			log.debug("getInstance():: instance was null");
 			initialize();
 		}
+		log.debug("getInstance():: instance is null? %s", instance == null ? "yes" : "no");
 		return instance;
 	}
 
@@ -104,6 +118,7 @@ public class BeanContainerManager {
 	 *            Properties to use for initialization
 	 */
 	private synchronized static void startUpInstance(Properties properties) {
+		log.trace("startUpInstance(properties=%s)", properties);
 		// double check that the instance is null, someone might have created
 		// it while we were entering this method.
 		if (instance != null) {
