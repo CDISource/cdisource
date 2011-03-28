@@ -39,5 +39,9 @@
       <module>testing/junit</module>
       <module>web</module>
    </modules>
+   
+   <build>
+   <finalName>cdisource-${build.version}</finalName>
+   </build>
 
 </project>
