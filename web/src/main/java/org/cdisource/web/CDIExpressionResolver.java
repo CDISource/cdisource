@@ -19,7 +19,7 @@ import org.cdisource.logging.Logger;
 import static org.cdisource.logging.LogFactoryManager.logger;
 
 /**
- * JSF El Resolver that extends the {@link ELResolver} class to provide bean
+ * Unified EL Resolver that extends the {@link ELResolver} class to provide bean
  * lookups using EL expressions based on the CDI {@link Named} annotation.
  * <p/>
  * This class requires an instance of a {@link BeanContainer} implementation on
