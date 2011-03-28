@@ -3,6 +3,12 @@ package org.cdisource.beancontainer.namespace;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * 
+ * @author Rick Hightower
+ * @author Andy Gibson
+ *
+ */
 public class BeanNamespace{
 
 	private final Map<String, Object> children = new TreeMap<String, Object>();
