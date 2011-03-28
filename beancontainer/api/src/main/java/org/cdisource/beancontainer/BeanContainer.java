@@ -68,13 +68,13 @@ public interface BeanContainer {
 	public void stop();
 
 	/**
-	 * Returns the root instance of the {@link BeanNamespace} object that can be
+	 * Returns the root instance of the {@link BeanNamespaceNotNeeded} object that can be
 	 * used to look up {@link Bean} instances by name. Used for looking up beans
 	 * that have longer namespaces such as "org.domain.project.name".
 	 * Particularly useful for expression lookups when you only get the
 	 * expression piece by piece.
 	 * 
-	 * @return A {@link BeanNamespace} instance that can be used to lookup
+	 * @return A {@link BeanNamespaceNotNeeded} instance that can be used to lookup
 	 *         beans.
 	 */
 	public BeanNamespace getBeanNamespace();

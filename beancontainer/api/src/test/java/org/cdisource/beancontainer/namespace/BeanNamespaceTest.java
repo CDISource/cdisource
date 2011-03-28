@@ -11,11 +11,11 @@ import org.junit.Test;
 
 public class BeanNamespaceTest {
 
-	private AbstractNamespaceGraph<Integer> root;
+	private BeanNamespace root;
 
 	@Before
 	public void beforeTest() {
-		root = new AbstractNamespaceGraph<Integer>();
+		root = new BeanNamespace();
 	}
 
 	@Test

@@ -20,67 +20,66 @@ import static org.cdisource.logging.LogLevel.*;
  */
 public class SystemOutLogger implements Logger, Serializable {
 
+	private String name;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void severe(String msg, Object... args) {
-		System.out.printf("SEVERE: " + msg, args);
+	
+	public SystemOutLogger(String name) {
+		this.name = name;
 	}
-
-	@Override
-	public void warning(String msg, Object... args) {
-		System.out.printf("WARNING: " + msg, args);
-	}
-
-	@Override
-	public void info(String msg, Object... args) {
-		LogLevel logLevel = level();
-		if (logLevel == INFO || logLevel == SEVERE || logLevel == WARNING) {
-			System.out.printf("INFO: " + msg + "\n", args);
-		}
-	}
-
+	
 	private LogLevel level() {
-		String level = System.getProperty("org.cdisource.logging.LogLevel", "SEVERE");
+		String level = System.getProperty("org.cdisource.logging.LogLevel", "INFO");
 		LogLevel logLevel = LogLevel.valueOf(level);
 		return logLevel;
 	}
 
+	private void printMessage(LogLevel msgLevel, String msg, Object... args) {
+		int level = level().ordinal();
+		if (level >= msgLevel.ordinal()) {
+			String message = String.format("%s %s %s", this.name, msgLevel.name(), String.format(msg, args));
+			System.out.println(message);
+		}
+		
+	}
+
+	@Override
+	public void severe(String msg, Object... args) {
+		printMessage(SEVERE, msg, args);
+	}
+
+	@Override
+	public void warning(String msg, Object... args) {
+		printMessage(WARNING, msg, args);
+	}
+
+	@Override
+	public void info(String msg, Object... args) {
+		printMessage(INFO, msg, args);
+	}
+
+
 	@Override
 	public void config(String msg, Object... args) {
-		LogLevel logLevel = level();
-		if (logLevel == INFO || logLevel == SEVERE || logLevel == WARNING || logLevel == CONFIG) {
-			System.out.printf("CONFIG: " + msg + "\n", args);
-		}
+		printMessage(CONFIG, msg, args);
 	}
 
 	@Override
 	public void debug(String msg, Object... args) {
-		LogLevel logLevel = level();
-		if (logLevel == INFO || logLevel == SEVERE || logLevel == WARNING || logLevel == CONFIG || logLevel == DEBUG) {
-			System.out.printf("DEBUG :" + msg + "\n", args);
-		}
+		printMessage(DEBUG, msg, args);
 	}
 
 	@Override
 	public void trace(String msg, Object... args) {
-		LogLevel logLevel = level();		
-		if (logLevel == INFO || logLevel == SEVERE || logLevel == WARNING || 
-				logLevel == CONFIG || logLevel == DEBUG ||  logLevel == TRACE) {
-			System.out.printf("TRACE: " + msg + "\n", args);
-		}
+		printMessage(TRACE, msg, args);
 	}
 
 	@Override
 	public void finest(String msg, Object... args) {
-		LogLevel logLevel = level();
-		if (logLevel == INFO || logLevel == SEVERE || logLevel == WARNING || 
-				logLevel == CONFIG || logLevel == DEBUG ||  logLevel == TRACE || logLevel == FINEST) {
-			System.out.printf("FINEST: " + msg + "\n", args);
-		}
+		printMessage(FINEST, msg, args);
 	}
 
 	@Override

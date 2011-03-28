@@ -14,6 +14,10 @@ import org.cdisource.beancontainer.BeanContainer;
 import org.cdisource.beancontainer.BeanContainerManager;
 import org.cdisource.beancontainer.namespace.BeanNamespace;
 
+import org.cdisource.logging.Logger;
+
+import static org.cdisource.logging.LogFactoryManager.logger;
+
 /**
  * JSF El Resolver that extends the {@link ELResolver} class to provide bean
  * lookups using EL expressions based on the CDI {@link Named} annotation.
@@ -23,12 +27,16 @@ import org.cdisource.beancontainer.namespace.BeanNamespace;
  * 
  * 
  * @author Andy Gibson
+ * @author Rick Hightower
  * 
  */
 public class CDIExpressionResolver extends ELResolver {
+	
+	private Logger logger = logger(CDIExpressionResolver.class);
 
 	@Override
 	public Object getValue(ELContext context, Object base, Object property) {
+		logger.trace("getValue(%s, %s, %s)", context, base, property);
 
 		if (context == null) {
 			throw new NullPointerException("EL Context is null");
@@ -42,27 +50,29 @@ public class CDIExpressionResolver extends ELResolver {
 		BeanContainer container = BeanContainerManager.getInstance();
 		String stringProperty = property.toString();
 
-		if (base == null) {
+		if (base instanceof BeanNamespace) {
+			logger.debug("getValue():: base was a namespace");
+			BeanNamespace namespace = (BeanNamespace) base;
+			result = namespace.findObject(stringProperty);
+			// check to see if our new object is the end of the line.
+			logger.debug("getValue():: base was a namespace:: result was null? %s", result == null ? "yes" : "no");
+		} else if (base == null) {
+			logger.debug("getValue():: base was null");
 			// locate the property in the root namespace
 			result = container.getBeanNamespace().findObject(stringProperty);
-		} else {
-			// check if this is a namespace object
-			if (base instanceof BeanNamespace) {
-				BeanNamespace namespace = (BeanNamespace) base;
-				result = namespace.findObject(stringProperty);
-				// check to see if our new object is the end of the line.
-			}
+			logger.debug("getValue():: base was null:: result was null? %s", result == null ? "yes" : "no");
 		}
 
 		// if we found a bean, extract it
 		if (result instanceof Bean) {
+			logger.debug("getValue():: result was a bean");
 			Bean<?> bean = (Bean<?>) result;
 			BeanManager bm = container.getBeanManager();
 			CreationalContext<?> creationalContext = bm
 					.createCreationalContext(bean);
-
 			result = bm.getReference(bean, bean.getBeanClass(),
 					creationalContext);
+			logger.debug("getValue():: result was a bean:: result was null? %s", result == null ? "yes" : "no");
 		}
 
 		context.setPropertyResolved(result != null);

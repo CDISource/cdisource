@@ -10,12 +10,12 @@ public class SystemOutLoggerFactory implements LogFactory {
 
 	@Override
 	public Logger getLogger(String name) {
-		return new SystemOutLogger();
+		return new SystemOutLogger(name);
 	}
 
 	@Override
 	public Logger getLogger(Class<?> clazz) {
-		return new SystemOutLogger();
+		return new SystemOutLogger(clazz.getName());
 	}
 
 }
