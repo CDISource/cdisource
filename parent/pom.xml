@@ -51,6 +51,16 @@
 	</prerequisites>
 
 
+	<dependencies>
+		<dependency>
+				<groupId>javax.enterprise</groupId>
+				<artifactId>cdi-api</artifactId>
+				<version>1.0-SP1</version>
+				<scope>provided</scope>
+				<type>jar</type>
+		</dependency>
+	</dependencies>
+
 	<!-- Configure the build -->
 	<build>
 		<plugins>

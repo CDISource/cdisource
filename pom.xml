@@ -35,7 +35,7 @@
       <module>beancontainer/weld-impl</module>
       <module>beancontainer/testing</module>
       <module>beancontainer/openwebbeans-impl</module>
-
+      <module>beancontainer/jndi-impl</module>
       <module>testing/junit</module>
       <module>web</module>
    </modules>
