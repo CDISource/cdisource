@@ -12,6 +12,9 @@ public class JDKLogger implements Logger, Serializable{
 	
 	public JDKLogger(java.util.logging.Logger logger){
 		this.delegate = logger;
+		if (delegate==null) {
+			throw new IllegalStateException("delegate is null");
+		}
 	}
 	
 	/**
@@ -21,35 +24,35 @@ public class JDKLogger implements Logger, Serializable{
 
 	@Override
 	public void severe(String msg, Object... args) {
-		if (delegate.getLevel().intValue()>=Level.SEVERE.intValue()) {
+		if (delegate.isLoggable(Level.SEVERE)) {
 			delegate.severe(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void warning(String msg, Object... args) {
-		if (delegate.getLevel().intValue() >= Level.WARNING.intValue()) {
+		if (delegate.isLoggable(Level.WARNING)) {
 			delegate.warning(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void info(String msg, Object... args) {
-		if (delegate.getLevel().intValue() >= Level.INFO.intValue()) {
+		if (delegate.isLoggable(Level.INFO)) {
 			delegate.info(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void config(String msg, Object... args) {
-		if (delegate.getLevel().intValue()>=Level.CONFIG.intValue()) {
+		if (delegate.isLoggable(Level.CONFIG)) {
 			delegate.config(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void debug(String msg, Object... args) {
-		if (delegate.getLevel().intValue()>=Level.FINE.intValue()) {
+		if (delegate.isLoggable(Level.FINE)) {
 			delegate.fine(String.format(msg, args));
 		}
 
@@ -57,14 +60,14 @@ public class JDKLogger implements Logger, Serializable{
 
 	@Override
 	public void trace(String msg, Object... args) {
-		if (delegate.getLevel().intValue()>=Level.FINER.intValue()) {
+		if (delegate.isLoggable(Level.FINER)) {
 			delegate.finer(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void finest(String msg, Object... args) {
-		if (delegate.getLevel().intValue()>=Level.FINEST.intValue()) {
+		if (delegate.isLoggable(Level.FINEST)) {
 			delegate.finest(String.format(msg, args));
 		}
 	}
