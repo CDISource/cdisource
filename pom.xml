@@ -3,12 +3,12 @@
    <groupId>org.cdisource.beancontainer</groupId>
    <artifactId>cdisource-build-aggregator</artifactId>
    <packaging>pom</packaging>
-   <version>0.9-Beta1</version>
+   <version>0.9-Beta2-SNAPSHOT</version>
 
    <parent>
       <groupId>org.cdisource</groupId>
       <artifactId>cdisource-parent</artifactId>
-      <version>0.9-Beta1</version>
+      <version>0.9-Beta2-SNAPSHOT</version>
       <relativePath>parent</relativePath>
    </parent>
    
