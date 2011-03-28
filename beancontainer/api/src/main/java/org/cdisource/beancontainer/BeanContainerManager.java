@@ -65,7 +65,7 @@ public class BeanContainerManager {
 	 * 
 	 */
 	public static void initialize() {
-		log.trace("initialize() called using system properties %s", System.getProperties());
+		log.trace("initialize() called using system properties");
 		initialize(System.getProperties());
 	}
 
@@ -77,7 +77,7 @@ public class BeanContainerManager {
 	 *            Properties to use for initialization
 	 */
 	public synchronized static void initialize(Properties properties) {
-		log.trace("initialize() called using properties %s", properties);
+		log.trace("initialize(properties)");
 
 		if (instance != null) {
 			return;
@@ -118,7 +118,7 @@ public class BeanContainerManager {
 	 *            Properties to use for initialization
 	 */
 	private synchronized static void startUpInstance(Properties properties) {
-		log.trace("startUpInstance(properties=%s)", properties);
+		log.trace("startUpInstance(properties)");
 		// double check that the instance is null, someone might have created
 		// it while we were entering this method.
 		if (instance != null) {

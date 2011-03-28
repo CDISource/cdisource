@@ -21,35 +21,35 @@ public class JDKLogger implements Logger, Serializable{
 
 	@Override
 	public void severe(String msg, Object... args) {
-		if (delegate.getLevel()==Level.SEVERE) {
+		if (delegate.getLevel().intValue()>=Level.SEVERE.intValue()) {
 			delegate.severe(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void warning(String msg, Object... args) {
-		if (delegate.getLevel()==Level.WARNING) {
+		if (delegate.getLevel().intValue() >= Level.WARNING.intValue()) {
 			delegate.warning(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void info(String msg, Object... args) {
-		if (delegate.getLevel()==Level.INFO) {
+		if (delegate.getLevel().intValue() >= Level.INFO.intValue()) {
 			delegate.info(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void config(String msg, Object... args) {
-		if (delegate.getLevel()==Level.CONFIG) {
+		if (delegate.getLevel().intValue()>=Level.CONFIG.intValue()) {
 			delegate.config(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void debug(String msg, Object... args) {
-		if (delegate.getLevel()==Level.FINE) {
+		if (delegate.getLevel().intValue()>=Level.FINE.intValue()) {
 			delegate.fine(String.format(msg, args));
 		}
 
@@ -57,16 +57,16 @@ public class JDKLogger implements Logger, Serializable{
 
 	@Override
 	public void trace(String msg, Object... args) {
-		if (delegate.getLevel()==Level.FINER) {
+		if (delegate.getLevel().intValue()>=Level.FINER.intValue()) {
 			delegate.finer(String.format(msg, args));
 		}
 	}
 
 	@Override
 	public void finest(String msg, Object... args) {
-		if (delegate.getLevel()==Level.FINEST) {
+		if (delegate.getLevel().intValue()>=Level.FINEST.intValue()) {
 			delegate.finest(String.format(msg, args));
-		}		
+		}
 	}
 
 	public boolean isLevel(LogLevel level) {
