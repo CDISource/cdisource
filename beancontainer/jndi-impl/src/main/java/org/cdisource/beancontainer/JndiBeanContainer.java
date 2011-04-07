@@ -1,9 +1,11 @@
 package org.cdisource.beancontainer;
 
+//import javax.enterprise.context.spi.Context;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 
 public class JndiBeanContainer extends AbstractBeanContainer {
+	
 	
 	private BeanManager beanManager;
 
@@ -45,5 +47,6 @@ public class JndiBeanContainer extends AbstractBeanContainer {
 	protected void doStop() {
 		beanManager = null;
 	}
+
 
 }

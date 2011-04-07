@@ -102,5 +102,9 @@ public class AbstractBeanContainerTest {
 		InjectedBean beanByType = beanContainer.getBeanByType(InjectedBean.class, new SomeOtherQualifierQualifier());
 		assertNotNull(beanByType);
 	}
+	
+	@Test public void testBeanContainerInjections() {
+	    assertEquals ("foo", beanContainer.getBeanByType(BeanUsingBeanContainer.class).foo());
+	}
 
 }

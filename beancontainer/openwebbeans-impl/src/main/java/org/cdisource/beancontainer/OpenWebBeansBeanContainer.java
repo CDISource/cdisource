@@ -1,11 +1,16 @@
 package org.cdisource.beancontainer;
 
+//import javax.enterprise.context.spi.Context;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.apache.webbeans.lifecycle.LifecycleFactory;
 import org.apache.webbeans.spi.ContainerLifecycle;
 
 public class OpenWebBeansBeanContainer extends AbstractBeanContainer {
+//	@Override
+//	public void registerContext(Context context, boolean replace) {
+//		throw new UnsupportedOperationException("TODO");
+//	}
 
 	private ContainerLifecycle lifecycle;
 	private BeanManager beanManager;
@@ -31,4 +36,5 @@ public class OpenWebBeansBeanContainer extends AbstractBeanContainer {
 	protected void doStop() {
 		lifecycle.stopApplication(null);
 	}
+
 }

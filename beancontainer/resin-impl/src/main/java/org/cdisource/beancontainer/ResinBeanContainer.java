@@ -1,8 +1,25 @@
 package org.cdisource.beancontainer;
 
+import java.lang.annotation.Annotation;
+
+import javax.enterprise.context.spi.Context;
 import javax.enterprise.inject.spi.BeanManager;
 
 public class ResinBeanContainer extends AbstractBeanContainer {
+
+//	@Override
+//	public void registerContext(Context context, boolean replace) {
+//		if (replace) {
+//			delegate.getCdiManager().replaceContext(context);
+//		} else {
+//			delegate.getCdiManager().addContext(context);
+//		}
+//	}
+	
+	public Context getContextByScope(Class<? extends Annotation> scopeType){
+		return delegate.getCdiManager().getContext(scopeType);
+	}
+
 	
 	com.caucho.resin.ResinBeanContainer delegate;
 	
@@ -26,4 +43,5 @@ public class ResinBeanContainer extends AbstractBeanContainer {
 	protected void doStop() {
 		delegate.close();		
 	}
+
 }

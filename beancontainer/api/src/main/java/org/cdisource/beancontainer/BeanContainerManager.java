@@ -90,7 +90,8 @@ public class BeanContainerManager {
 	 * Get the bean container instance using system properties. If this method
 	 * is called before one of the initialize methods is called, then the
 	 * manager creates and initializes a {@link BeanContainer} instance to
-	 * return.
+	 * return. This is good for calling from unit tests and/or standalone applications.
+	 * It is not a good idea to use this from a web application due to classloader issues.
 	 * <p/>
 	 * Auto initializing this way means that we can call the getter from
 	 * anywhere without being totally concerned about who or where the container
@@ -109,6 +110,26 @@ public class BeanContainerManager {
 		return instance;
 	}
 
+    /**
+     * Create the bean container instance using system properties. If this method
+     * is called before one of the initialize methods is called, then the
+     * manager creates and initializes a {@link BeanContainer} instance to
+     * return. This is good for calling from unit tests and/or standalone applications.
+     * It is not a good idea to use this from a web application due to classloader issues.
+     * <p/>
+     * Auto initializing this way means that we can call the getter from
+     * anywhere without being totally concerned about who or where the container
+     * is initialized.
+     * 
+     * @see BeanContainerManager.PROP_NAME
+     * @see {@link BeanContainerManager#initialize()}
+     * */
+    public static BeanContainer createInstance() {
+        log.trace("createInstance() called");
+        BeanContainer beanContainer = generateInstance(System.getProperties());
+        log.debug("createInstance():: instance is null? %s", beanContainer == null ? "yes" : "no");
+        return beanContainer;
+    }
 	/**
 	 * Thread safe method to create a new instance of a {@link BeanContainer}
 	 * and start it up and make it available through the

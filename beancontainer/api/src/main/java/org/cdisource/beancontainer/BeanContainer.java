@@ -6,6 +6,8 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.cdisource.beancontainer.namespace.BeanNamespace;
+//import javax.enterprise.context.spi.Context;
+
 
 /**
  * BeanContainer interface that defines a common interface to CDI
@@ -17,6 +19,9 @@ import org.cdisource.beancontainer.namespace.BeanNamespace;
  * 
  */
 public interface BeanContainer {
+	
+//	public void registerContext(Context context, boolean replace);
+
 	/**
 	 * Look up a bean by name. You should really consider using, getBeanByType
 	 * since this is the type safe version.
@@ -87,5 +92,6 @@ public interface BeanContainer {
 	 *         implementation.
 	 */
 	public BeanManager getBeanManager();
+	
 
 }
