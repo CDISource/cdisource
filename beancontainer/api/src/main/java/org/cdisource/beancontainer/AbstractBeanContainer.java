@@ -23,10 +23,24 @@ import org.cdisource.beancontainer.namespace.BeanNamespace;
  * @author Rick Hightower
  * 
  */
-public abstract class AbstractBeanContainer implements BeanContainer {
+public abstract class AbstractBeanContainer implements BeanContainer, BeanManagerLocator {
 
 	private BeanNamespace beanNamespace;
 
+	public boolean containsBeanWithName(String name) {
+		checkForInitialization();
+		if (name == null) {
+			throw new IllegalArgumentException("CDI Bean name cannot be null");
+		}
+
+		BeanManager beanManager = locateBeanManager();
+		Set<Bean<?>> beans = beanManager.getBeans(name);
+		return beans.isEmpty();
+		
+	}
+	
+
+		
 	@Override
 	public Object getBeanByName(String name) {
 		checkForInitialization();

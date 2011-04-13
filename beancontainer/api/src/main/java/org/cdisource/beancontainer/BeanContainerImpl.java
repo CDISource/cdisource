@@ -6,6 +6,14 @@ import javax.inject.Inject;
 
 public class BeanContainerImpl extends AbstractBeanContainer {
     @Inject protected BeanManager manager;
+    
+    public BeanContainerImpl() {
+    	
+    }
+    
+    public BeanContainerImpl(BeanManager manager) {
+    	this.manager = manager;
+    }
 
     @Override
     protected BeanManager locateBeanManager() {

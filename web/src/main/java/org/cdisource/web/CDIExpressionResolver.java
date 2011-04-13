@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.cdisource.beancontainer.BeanContainer;
 import org.cdisource.beancontainer.BeanContainerManager;
 import org.cdisource.beancontainer.namespace.BeanNamespace;
+import org.cdisource.beancontainer.BeanManagerLocator;
 
 import org.cdisource.logging.Logger;
 
@@ -67,7 +68,7 @@ public class CDIExpressionResolver extends ELResolver {
 		if (result instanceof Bean) {
 			logger.debug("getValue():: result was a bean");
 			Bean<?> bean = (Bean<?>) result;
-			BeanManager bm = container.getBeanManager();
+			BeanManager bm = ((BeanManagerLocator)container).getBeanManager();
 			CreationalContext<?> creationalContext = bm
 					.createCreationalContext(bean);
 			result = bm.getReference(bean, bean.getBeanClass(),
