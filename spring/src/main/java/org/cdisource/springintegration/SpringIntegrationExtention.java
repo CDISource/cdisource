@@ -17,7 +17,9 @@ import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.InjectionTarget;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
+import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
 import org.springframework.context.ApplicationContext;
 
@@ -63,18 +65,29 @@ public class SpringIntegrationExtention implements Extension {
 	}
 
 	
+	
 	class SpringBean implements Bean <Object> {
 		InjectionTarget<Object> it;
 		Spring spring;
 		Class<?> injectionType; 
 		BeanManager bm;
-		
+	
+		@SuppressWarnings("serial")
+		class NamedLiteral extends AnnotationLiteral<Named> implements Named {
+
+			@Override
+			public String value() {
+				return spring.name();
+			}
+			
+		}
+
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		SpringBean(Spring spring, Class<?> injectionType, BeanManager bm){
 			this.spring = spring;
 			this.injectionType = injectionType;
 			this.bm = bm;
-			AnnotatedType at = bm.createAnnotatedType(injectionType); //use this to instantiate the class and inject dependencies
+			AnnotatedType at = bm.createAnnotatedType(injectionType);
 			it = bm.createInjectionTarget(at);
 		}
 		
@@ -91,13 +104,13 @@ public class SpringIntegrationExtention implements Extension {
 		
 		@Override
 		public String getName() {
-			return "Spring Injection";//this is @Named
+			return spring.name();
 		}
 
 		@Override
 		public Set<Annotation> getQualifiers() {
 			Set<Annotation> qualifiers = new HashSet<Annotation>();	
-			//Create an @Named so bean is available to instace.
+			qualifiers.add(new NamedLiteral());
 			qualifiers.add( spring );
 			return qualifiers;
 		}
@@ -127,13 +140,19 @@ public class SpringIntegrationExtention implements Extension {
 
 		@Override
 		public boolean isNullable() {
-			return true;//TODO maybe add as non-binding attribute of Spring annotation
+			return !spring.required();
 		}
 		@Override
 		public Object create(CreationalContext<Object> ctx) {
-			Object instance;
+			Object instance = null;
 			if (!spring.name().trim().equals("")) {
-				instance = appContextThreadLocal.get().getBean(spring.name(), spring.type());
+				if(!spring.required()) {
+					if (appContextThreadLocal.get().containsBean(spring.name())) {
+						instance = appContextThreadLocal.get().getBean(spring.name(), spring.type());						
+					}
+				} else {
+					instance = appContextThreadLocal.get().getBean(spring.name(), spring.type());
+				}
 			} else {
 				instance = appContextThreadLocal.get().getBean(spring.type());
 			}

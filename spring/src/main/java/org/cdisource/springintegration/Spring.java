@@ -12,5 +12,6 @@ import javax.inject.Qualifier;
 @Qualifier @Retention(RUNTIME) @Target({TYPE, METHOD, FIELD, PARAMETER})
 public @interface Spring {
 	Class<?> type() default Object.class;
-	@Nonbinding String name() default "";
+	String name() default "";
+	@Nonbinding boolean required() default true;
 }
