@@ -32,6 +32,10 @@ public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 		
 		Set<Bean<?>> beans = beanManagerLocationUtil.beanManager().getBeans(Object.class);
 		for (Bean<?> bean : beans) {
+			
+			if (bean.getName()!=null && bean.getName().equals("Spring Injection")){
+				continue;
+			}
 			BeanDefinitionBuilder definition = BeanDefinitionBuilder.rootBeanDefinition(CdiFactoryBean.class)
 						.addPropertyValue("beanClass", bean.getBeanClass())
 						.addPropertyValue("useJNDI", this.useJNDI)

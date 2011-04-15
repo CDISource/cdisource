@@ -9,16 +9,6 @@
 	<context:spring-configured />
 	<context:component-scan base-package="org.cdisource.springapp" />
 	
-	<bean class="org.cdisource.springintegration.CdiBeanFactoryPostProcessor" >
-		<property name="useJNDI" value="false" />
-	</bean>
 
-	<bean id="springBeanAuto" class="org.cdisource.springintegration.SpringBeanUsingAutoWired"  />
-	
-	<bean id="springBeanStandard" class="org.cdisource.springintegration.SpringBeanUsingStandardInjection" >
-		<property name="bean" ref="someNamedCdiBean"/>
-	</bean>
-	
-	<bean id="foo" class="org.cdisource.springintegration.FooSpringBean"/>
-	 
+	<bean name="fooBar" class="org.cdisource.springintegration.FooSpringBean"/>	 
 </beans>
