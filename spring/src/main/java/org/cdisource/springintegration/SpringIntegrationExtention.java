@@ -166,6 +166,9 @@ public class SpringIntegrationExtention implements Extension {
 		@Override
 		public Object create(CreationalContext<Object> ctx) {
 			ApplicationContext applicationContext = ApplicationContextLocatorManager.getInstance().locateApplicationContext();
+			if  (applicationContext==null) {
+				throw new IllegalStateException("applicationContext was null");
+			}
 			Object instance = null;
 			if (spring!=null) {
 			if (!spring.name().trim().equals("")) {

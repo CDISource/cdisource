@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.inject.Inject;
 
+import org.cdisource.springintegration.springsupport.ApplicationContextLocatorManager;
 import org.cdisource.springintegration.springsupport.ApplicationContextLocatorThreadLocal;
 import org.cdisource.testing.junit.CdiTestRunner;
 import org.junit.After;
@@ -38,6 +39,7 @@ public class SpringIntegrationExtentionTest {
 	@Test
 	public void testSpringQualifier() {
 		assertNotNull(beanContainer);
+		assertNotNull(ApplicationContextLocatorManager.getInstance().locateApplicationContext());
 		CdiBeanThatHasSpringInjection springInjection = beanContainer.getBeanByType(CdiBeanThatHasSpringInjection.class);
 		assertNotNull(springInjection);
 		springInjection.validate();
