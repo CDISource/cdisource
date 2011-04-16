@@ -11,4 +11,7 @@
 	
 
 	<bean name="fooBar" class="org.cdisource.springintegration.FooSpringBean"/>	 
+	<bean name="fooBar2" class="org.cdisource.springintegration.FooSpringBean"/>	
+	<bean name="fooBar3"  class="org.cdisource.springintegration.FooSpringBean2Impl"/>
+
 </beans>

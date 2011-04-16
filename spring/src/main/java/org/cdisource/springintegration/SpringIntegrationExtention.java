@@ -21,17 +21,13 @@ import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
+import org.cdisource.springintegration.springsupport.ApplicationContextLocator;
+import org.cdisource.springintegration.springsupport.ApplicationContextLocatorManager;
 import org.springframework.context.ApplicationContext;
 
 
 public class SpringIntegrationExtention implements Extension {
 	Set <SpringBean> springBeans = new HashSet<SpringBean>();
-	static ThreadLocal<ApplicationContext> appContextThreadLocal = new ThreadLocal<ApplicationContext>();
-	
-	
-	public static void putContext(ApplicationContext ac) {
-		appContextThreadLocal.set(ac);
-	}
 	
 	
 	public void processInjectionTarget (@Observes ProcessInjectionTarget<?> pit, BeanManager bm) {
@@ -44,6 +40,12 @@ public class SpringIntegrationExtention implements Extension {
 				if (spring!=null) {
 					SpringBean springBean = new SpringBean(spring, (Class<?>) point.getType(), bm);
 					springBeans.add(springBean);
+				} else {
+					SpringLookup springLookup = point.getAnnotated().getAnnotation(SpringLookup.class);
+					if (springLookup!=null) {
+						SpringBean springBean = new SpringBean(springLookup, (Class<?>) point.getType(), bm);
+						springBeans.add(springBean);
+					}
 				}
 			}
 
@@ -69,6 +71,7 @@ public class SpringIntegrationExtention implements Extension {
 	class SpringBean implements Bean <Object> {
 		InjectionTarget<Object> it;
 		Spring spring;
+		SpringLookup lookup;
 		Class<?> injectionType; 
 		BeanManager bm;
 	
@@ -77,7 +80,7 @@ public class SpringIntegrationExtention implements Extension {
 
 			@Override
 			public String value() {
-				return spring.name();
+				return (spring!=null) ? spring.name() : lookup.value();
 			}
 			
 		}
@@ -91,6 +94,17 @@ public class SpringIntegrationExtention implements Extension {
 			it = bm.createInjectionTarget(at);
 		}
 		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		public SpringBean(SpringLookup springLookup, Class<?> type,
+				BeanManager bm) {
+			this.lookup = springLookup;
+			this.injectionType = type;
+			this.bm = bm;
+			AnnotatedType at = bm.createAnnotatedType(injectionType);
+			it = bm.createInjectionTarget(at);
+
+		}
+
 
 		@Override
 		public Class<?> getBeanClass() {
@@ -104,14 +118,21 @@ public class SpringIntegrationExtention implements Extension {
 		
 		@Override
 		public String getName() {
-			return spring.name();
+			//return spring!=null ? spring.name() : lookup.value();//causes Candi to fail for duplicate names
+			return spring!=null ? spring.name() : null; 
 		}
 
 		@Override
 		public Set<Annotation> getQualifiers() {
 			Set<Annotation> qualifiers = new HashSet<Annotation>();	
-			qualifiers.add(new NamedLiteral());
-			qualifiers.add( spring );
+			if (lookup==null) {
+				qualifiers.add(new NamedLiteral());
+			}
+			if (spring!=null) {
+				qualifiers.add( spring );
+			} else {
+				qualifiers.add( lookup );				
+			}
 			return qualifiers;
 		}
 		
@@ -140,21 +161,26 @@ public class SpringIntegrationExtention implements Extension {
 
 		@Override
 		public boolean isNullable() {
-			return !spring.required();
+			return spring != null ? !spring.required() : false;
 		}
 		@Override
 		public Object create(CreationalContext<Object> ctx) {
+			ApplicationContext applicationContext = ApplicationContextLocatorManager.getInstance().locateApplicationContext();
 			Object instance = null;
+			if (spring!=null) {
 			if (!spring.name().trim().equals("")) {
 				if(!spring.required()) {
-					if (appContextThreadLocal.get().containsBean(spring.name())) {
-						instance = appContextThreadLocal.get().getBean(spring.name(), spring.type());						
+					if (applicationContext.containsBean(spring.name())) {
+						instance = applicationContext.getBean(spring.name(), spring.type());						
 					}
 				} else {
-					instance = appContextThreadLocal.get().getBean(spring.name(), spring.type());
+					instance = applicationContext.getBean(spring.name(), spring.type());
 				}
 			} else {
-				instance = appContextThreadLocal.get().getBean(spring.type());
+				instance = applicationContext.getBean(spring.type());
+			}
+			} else {
+				instance = applicationContext.getBean(lookup.value());				
 			}
 			it.inject(instance, ctx); 
 			it.postConstruct(instance); 

@@ -20,5 +20,6 @@
 	</bean>
 	
 	<bean id="foo" class="org.cdisource.springintegration.FooSpringBean"/>
+
 	 
 </beans>

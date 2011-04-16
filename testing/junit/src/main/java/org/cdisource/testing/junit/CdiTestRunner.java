@@ -46,20 +46,27 @@ public class CdiTestRunner extends BlockJUnit4ClassRunner {
 
 	/**
 	 * Lazy initializes a bean container that exists on the classpath. 
+	 * @param annotation 
 	 * 
 	 * @return instance of the CDI Bean container
 	 */
-	public static BeanContainer getBeanContainer() {
-		if (beanContainer == null) {
-			beanContainer = BeanContainerManager.getInstance();
+	public static BeanContainer getBeanContainer(RunConfig annotation) {
+		
+		if (annotation==null || annotation.newBeanContainerPerTest() == false) {
+			if (beanContainer == null) {
+				beanContainer = BeanContainerManager.getInstance();
+			}
+			return beanContainer;
+		} else {
+			return BeanContainerManager.createInstance();
 		}
-		return beanContainer;
 	}
 
 	@Override
 	protected Object createTest() throws Exception {
 		Class<?> clazz = getTestClass().getJavaClass();
-		Object result = getBeanContainer().getBeanByType(clazz);
+		RunConfig annotation = clazz.getAnnotation(RunConfig.class);
+		Object result = getBeanContainer(annotation).getBeanByType(clazz);
 		if (result == null) {
 			result = super.createTest();
 		}

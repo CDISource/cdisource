@@ -38,6 +38,7 @@
       <module>beancontainer/jndi-impl</module>
       <module>testing/junit</module>
       <module>web</module>
+      <module>spring</module>
    </modules>
    
    <build>
