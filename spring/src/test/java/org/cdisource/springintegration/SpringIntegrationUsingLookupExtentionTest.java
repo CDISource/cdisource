@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.cdisource.springintegration.springsupport.ApplicationContextLocatorThreadLocal;
 import org.cdisource.testing.junit.CdiTestRunner;
-//import org.cdisource.testing.junit.RunConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import org.cdisource.beancontainer.BeanContainer;
 
 
 @RunWith(CdiTestRunner.class)
-//@RunConfig(newBeanContainerPerTest=true)
 public class SpringIntegrationUsingLookupExtentionTest {
 	
 	@Inject
