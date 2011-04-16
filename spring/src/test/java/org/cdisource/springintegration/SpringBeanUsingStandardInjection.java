@@ -7,7 +7,7 @@ public class SpringBeanUsingStandardInjection {
 		NamedCdiBean bean;
 		
 		@Autowired
-		CdiBeanThatHasSpringInjection2 injection;
+		CdiBeanThatHasSpringInjection2 injection; //Injecting a CDI bean that has a Spring injection into a Spring bean confuses weld
 		
 		public void setBean(NamedCdiBean bean) {
 			this.bean = bean;

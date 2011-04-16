@@ -38,6 +38,9 @@ public class SpringIntegrationExtention implements Extension {
 		synchronized (springBeans) {
 			for (InjectionPoint point: injectionPoints){
 				
+				if (!(point.getType() instanceof Class<?>)) {
+					continue;
+				}
 				
 				Class<?> injectionType = (Class<?>) point.getType();
 				Spring spring = point.getAnnotated().getAnnotation(Spring.class);
