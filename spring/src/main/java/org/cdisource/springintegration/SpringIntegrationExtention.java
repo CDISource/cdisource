@@ -3,7 +3,9 @@ package org.cdisource.springintegration;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.enterprise.context.spi.CreationalContext;
@@ -21,13 +23,12 @@ import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
-import org.cdisource.springintegration.springsupport.ApplicationContextLocator;
 import org.cdisource.springintegration.springsupport.ApplicationContextLocatorManager;
 import org.springframework.context.ApplicationContext;
 
 
 public class SpringIntegrationExtention implements Extension {
-	Set <SpringBean> springBeans = new HashSet<SpringBean>();
+	Map <String, SpringBean> springBeans = new HashMap<String, SpringBean>();
 	
 	
 	public void processInjectionTarget (@Observes ProcessInjectionTarget<?> pit, BeanManager bm) {
@@ -35,22 +36,23 @@ public class SpringIntegrationExtention implements Extension {
 		Set<InjectionPoint> injectionPoints = pit.getInjectionTarget().getInjectionPoints();
 		
 		synchronized (springBeans) {
-			for (InjectionPoint point: injectionPoints){				
+			for (InjectionPoint point: injectionPoints){
+				
+				
+				Class<?> injectionType = (Class<?>) point.getType();
 				Spring spring = point.getAnnotated().getAnnotation(Spring.class);
 				if (spring!=null) {
-					SpringBean springBean = new SpringBean(spring, (Class<?>) point.getType(), bm);
-					springBeans.add(springBean);
+					SpringBean springBean = new SpringBean(pit.getAnnotatedType(), spring, injectionType, bm);
+					springBeans.put(springBean.key(), springBean); //we can do some validation to make sure that this bean is compatible with the one we are replacing.
 				} else {
 					SpringLookup springLookup = point.getAnnotated().getAnnotation(SpringLookup.class);
 					if (springLookup!=null) {
-						SpringBean springBean = new SpringBean(springLookup, (Class<?>) point.getType(), bm);
-						springBeans.add(springBean);
+						SpringBean springBean = new SpringBean(springLookup, injectionType, bm);
+						springBeans.put(springBean.key(), springBean);
 					}
 				}
 			}
-
 		}
-		
 	}
 	
 	
@@ -60,7 +62,7 @@ public class SpringIntegrationExtention implements Extension {
 	
 	void afterBeanDiscovery( @Observes AfterBeanDiscovery abd, BeanManager bm) {
 		synchronized (springBeans) {
-			for (SpringBean bean : springBeans) {
+			for (SpringBean bean : springBeans.values()) {
 				abd.addBean(bean);
 			}	
 		}
@@ -75,22 +77,16 @@ public class SpringIntegrationExtention implements Extension {
 		Class<?> injectionType; 
 		BeanManager bm;
 	
-		@SuppressWarnings("serial")
-		class NamedLiteral extends AnnotationLiteral<Named> implements Named {
 
-			@Override
-			public String value() {
-				return (spring!=null) ? spring.name() : lookup.value();
-			}
-			
-		}
-
+		AnnotatedType<?> annotatedType;
+		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		SpringBean(Spring spring, Class<?> injectionType, BeanManager bm){
+		SpringBean(AnnotatedType<?> annotatedType, Spring spring, Class<?> injectionType, BeanManager bm){
 			this.spring = spring;
 			this.injectionType = injectionType;
 			this.bm = bm;
 			AnnotatedType at = bm.createAnnotatedType(injectionType);
+			this.annotatedType = annotatedType;
 			it = bm.createInjectionTarget(at);
 		}
 		
@@ -105,6 +101,19 @@ public class SpringIntegrationExtention implements Extension {
 
 		}
 
+		public String key () {
+			return "" + this.getName() + "::" + injectionType.toString();
+		}
+		
+		@SuppressWarnings("serial")
+		class NamedLiteral extends AnnotationLiteral<Named> implements Named {
+
+			@Override
+			public String value() {
+				return (spring!=null) ? spring.name() : lookup.value();
+			}
+			
+		}
 
 		@Override
 		public Class<?> getBeanClass() {
@@ -118,15 +127,14 @@ public class SpringIntegrationExtention implements Extension {
 		
 		@Override
 		public String getName() {
-			//return spring!=null ? spring.name() : lookup.value();//causes Candi to fail for duplicate names
-			return spring!=null ? spring.name() : null; 
+			return spring!=null ? spring.name() : lookup.value();
 		}
 
 		@Override
 		public Set<Annotation> getQualifiers() {
 			Set<Annotation> qualifiers = new HashSet<Annotation>();	
 			if (lookup==null) {
-				qualifiers.add(new NamedLiteral());
+				qualifiers.add(new NamedLiteral()); //Added this because it causes OWB to fail if there is a Named
 			}
 			if (spring!=null) {
 				qualifiers.add( spring );
@@ -197,6 +205,9 @@ public class SpringIntegrationExtention implements Extension {
 			ctx.release();
 		}
 
+		public String toString() {
+			return "SpringBean(annotatedType="+ annotatedType.toString() +"key=" + this.key() +")";
+		}
 		
 	}
 

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
+
+//TODO figure out if the bean is coming from CDI or Spring or not
 public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	
 	private boolean useLongName;
@@ -32,6 +34,9 @@ public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 		
 		Set<Bean<?>> beans = beanManagerLocationUtil.beanManager().getBeans(Object.class);
 		for (Bean<?> bean : beans) {
+			if (bean instanceof SpringIntegrationExtention.SpringBean) {
+				continue;
+			}
 			
 			if (bean.getName()!=null && bean.getName().equals("Spring Injection")){
 				continue;

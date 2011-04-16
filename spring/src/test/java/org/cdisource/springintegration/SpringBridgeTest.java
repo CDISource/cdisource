@@ -2,6 +2,8 @@ package org.cdisource.springintegration;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.cdisource.springintegration.springsupport.ApplicationContextLocatorThreadLocal;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -13,6 +15,12 @@ public class SpringBridgeTest {
 	@Before
 	public void setUp() {
 		context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		ApplicationContextLocatorThreadLocal.putContext(context);
+	}
+
+	@After
+	public void tearDown() {
+		ApplicationContextLocatorThreadLocal.putContext(null);
 	}
 	
 	@Test
