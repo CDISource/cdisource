@@ -74,7 +74,7 @@ public class SpringIntegrationExtention implements Extension {
 	
 	
 	class SpringBean implements Bean <Object> {
-		InjectionTarget<Object> it;
+		//InjectionTarget<Object> it;
 		Spring spring;
 		SpringLookup lookup;
 		Class<?> injectionType; 
@@ -90,7 +90,7 @@ public class SpringIntegrationExtention implements Extension {
 			this.bm = bm;
 			AnnotatedType at = bm.createAnnotatedType(injectionType);
 			this.annotatedType = annotatedType;
-			it = bm.createInjectionTarget(at);
+			//it = bm.createInjectionTarget(at);
 		}
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -100,7 +100,7 @@ public class SpringIntegrationExtention implements Extension {
 			this.injectionType = type;
 			this.bm = bm;
 			AnnotatedType at = bm.createAnnotatedType(injectionType);
-			it = bm.createInjectionTarget(at);
+			//it = bm.createInjectionTarget(at);
 
 		}
 
@@ -123,9 +123,10 @@ public class SpringIntegrationExtention implements Extension {
 			return this.injectionType;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public Set<InjectionPoint> getInjectionPoints() {
-			return it.getInjectionPoints();
+			return Collections.EMPTY_SET;
 		}
 		
 		@Override
@@ -196,15 +197,15 @@ public class SpringIntegrationExtention implements Extension {
 			} else {
 				instance = applicationContext.getBean(lookup.value());				
 			}
-			it.inject(instance, ctx); 
-			it.postConstruct(instance); 
+			//it.inject(instance, ctx); 
+			//it.postConstruct(instance); 
 			return instance;
 		}
 
 		@Override
 		public void destroy(Object instance, CreationalContext<Object> ctx) {
-			it.preDestroy(instance);
-			it.dispose(instance); 
+			//it.preDestroy(instance);
+			//it.dispose(instance); 
 			ctx.release();
 		}
 
