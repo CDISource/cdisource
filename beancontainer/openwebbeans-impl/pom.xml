@@ -12,6 +12,11 @@
         <relativePath>../../parent</relativePath>
     </parent>
 
+	<!-- Fix from Mark Struberg for @Spring running in OWB. -->
+    <properties>
+        <openwebbeans.version>1.1.1-SNAPSHOT</openwebbeans.version>
+    </properties>
+
     <prerequisites>
         <maven>3.0</maven>
     </prerequisites>
@@ -32,16 +37,12 @@
         <dependency>
             <groupId>org.apache.openwebbeans</groupId>
             <artifactId>openwebbeans-impl</artifactId>
-            <version>1.0.0</version>
-            <type>jar</type>
-            <scope>compile</scope>
+            <version>${openwebbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.openwebbeans</groupId>
             <artifactId>openwebbeans-spi</artifactId>
-            <version>1.0.0</version>
-            <type>jar</type>
-            <scope>compile</scope>
+            <version>${openwebbeans.version}</version>
         </dependency>
 
         <dependency>
@@ -67,5 +68,17 @@
     </dependencies>
 
 
+    <repositories>
+       <repository>
+        <id>apachesnapshots</id>
+        <url>http://repository.apache.org/snapshots</url>
+        <releases>
+           <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>        
+     </repository>
+    </repositories>
 
 </project>

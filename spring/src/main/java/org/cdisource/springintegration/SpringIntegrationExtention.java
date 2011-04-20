@@ -42,6 +42,9 @@ public class SpringIntegrationExtention implements Extension {
 					continue;
 				}
 				
+				//TODO add springBeans.contains so I can check before creating if I need to create
+				//this means externalizing the key gen into a helper method
+				
 				Class<?> injectionType = (Class<?>) point.getType();
 				Spring spring = point.getAnnotated().getAnnotation(Spring.class);
 				if (spring!=null) {
