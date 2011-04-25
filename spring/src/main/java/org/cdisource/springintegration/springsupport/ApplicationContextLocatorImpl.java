@@ -9,10 +9,15 @@ import java.util.WeakHashMap;
 import org.springframework.context.ApplicationContext;
 
 
+/** Simple implementation of the ApplicationContextLocator that is web application friendly.
+ * It does not use a normal singleton design pattern. It uses a variant that will allow the webapplication to be relaoded.
+ * 
+ * @author rick
+ *
+ */
 public class ApplicationContextLocatorImpl implements ApplicationContextLocator{
 
 	public static Map<ClassLoader, WeakReference<ApplicationContext>> map = 
-		
 		Collections.synchronizedMap(new WeakHashMap<ClassLoader, WeakReference<ApplicationContext>>());
 
 	public static void putContext(ApplicationContext context) {
