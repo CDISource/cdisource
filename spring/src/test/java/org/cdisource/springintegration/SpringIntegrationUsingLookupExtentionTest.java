@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.inject.Inject;
 
-import org.cdisource.springintegration.springsupport.ApplicationContextLocatorThreadLocal;
+import org.cdisource.springintegration.springsupport.ApplicationContextLocatorImpl;
 import org.cdisource.testing.junit.CdiTestRunner;
 import org.junit.After;
 import org.junit.Before;
@@ -28,12 +28,12 @@ public class SpringIntegrationUsingLookupExtentionTest {
 	@Before
 	public void setUp() {
 		context = new ClassPathXmlApplicationContext("springIntoCdiApplicationContext.xml");
-		ApplicationContextLocatorThreadLocal.putContext(context);
+		ApplicationContextLocatorImpl.putContext(context);
 	}
 
 	@After
 	public void tearDown() {
-		ApplicationContextLocatorThreadLocal.putContext(null);
+		ApplicationContextLocatorImpl.putContext(null);
 	}
 
 	@Test
