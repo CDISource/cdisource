@@ -1,11 +1,14 @@
 package org.cdisource.testing.junit;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.cdisource.beancontainer.BeanContainer;
 import org.cdisource.beancontainer.BeanContainerManager;
 import org.junit.runner.RunWith;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 
 /**
@@ -34,6 +37,7 @@ import org.junit.runners.model.InitializationError;
  * 
  * 
  * @author Andy Gibson
+ * @author Rick Hightower
  * 
  */
 public class CdiTestRunner extends BlockJUnit4ClassRunner {
@@ -43,6 +47,8 @@ public class CdiTestRunner extends BlockJUnit4ClassRunner {
 	}
 
 	private static BeanContainer beanContainer;
+	
+	private RunConfig runConfig;
 
 	/**
 	 * Lazy initializes a bean container that exists on the classpath. 
@@ -50,26 +56,35 @@ public class CdiTestRunner extends BlockJUnit4ClassRunner {
 	 * 
 	 * @return instance of the CDI Bean container
 	 */
-	public static BeanContainer getBeanContainer(RunConfig annotation) {
-		
-		if (annotation==null || annotation.newBeanContainerPerTest() == false) {
+	public static BeanContainer getBeanContainer() {		
 			if (beanContainer == null) {
 				beanContainer = BeanContainerManager.getInstance();
 			}
 			return beanContainer;
-		} else {
-			return BeanContainerManager.createInstance();
-		}
 	}
 
 	@Override
 	protected Object createTest() throws Exception {
 		Class<?> clazz = getTestClass().getJavaClass();
-		RunConfig annotation = clazz.getAnnotation(RunConfig.class);
-		Object result = getBeanContainer(annotation).getBeanByType(clazz);
+		this.runConfig = clazz.getAnnotation(RunConfig.class);
+		
+		Object result = getBeanContainer().getBeanByType(clazz);
 		if (result == null) {
 			result = super.createTest();
 		}
 		return result;
 	}
+	
+	  @Override
+	  protected void runChild(FrameworkMethod method, RunNotifier notifier)
+	  {
+
+		getBeanContainer().startScope(RequestScoped.class);
+	    try {
+	      super.runChild(method, notifier);
+	    } finally {
+			getBeanContainer().stopScope(RequestScoped.class);
+	    }
+	  }
+
 }

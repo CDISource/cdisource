@@ -12,12 +12,6 @@ public class CdiFactoryBean implements FactoryBean<Object> {
 	private boolean singleton = true;
 
 	
-	public void setUseJNDI(boolean useJNDI) {
-		this.beanManagerLocationUtil.setUseJNDI(useJNDI);
-	}
-
-
-	
 	public void setBeanClass(Class<?> beanClass) {
 		this.beanClass = beanClass;
 	}

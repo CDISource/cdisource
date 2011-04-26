@@ -8,6 +8,10 @@ import java.util.ServiceLoader;
 import java.util.WeakHashMap;
 import java.lang.ref.WeakReference;
 
+import org.cdisource.logging.Logger;
+
+import static org.cdisource.logging.LogFactoryManager.logger;
+
 
 /**
  * ApplicationContextLocatorManager, this is used to find an ApplicationContextLocator. 
@@ -57,17 +61,32 @@ public class ApplicationContextLocatorManager {
 	 * @return
 	 */
 	public static ApplicationContextLocator getInstance(Properties properties) {
+		Logger logger = logger(ApplicationContextLocatorManager.class);
+		
+		
 		ApplicationContextLocator applicationContextLocator = null;
 
 		synchronized (map) { //synced so two threads will not try to put an entry in. First thread blocks until key is populated
+			
+			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 			WeakReference<ApplicationContextLocator> weakReference = map
-					.get(Thread.currentThread().getContextClassLoader());
+					.get(contextClassLoader);
+			
 			if (weakReference == null || weakReference.get() == null) {
-				applicationContextLocator = locateAppContextLocator(properties);
-				map.put(Thread.currentThread().getContextClassLoader(),
+				
+				logger.debug("application context locator was not found in singleton looking up");
+				
+				applicationContextLocator = locateAppContextLocator(properties, logger);
+				
+				if (applicationContextLocator==null) {
+					logger.debug("Unable to find applicationContextLocator");
+				}
+				
+				map.put(contextClassLoader,
 						new WeakReference<ApplicationContextLocator>(
 								applicationContextLocator));
 			} else {
+				logger.debug("found application context locator");
 				applicationContextLocator = weakReference.get();
 			}
 
@@ -78,13 +97,16 @@ public class ApplicationContextLocatorManager {
 	/**
 	 * Location logic. This is where all of the logic for location is implemented.
 	 * @param properties
+	 * @param logger 
 	 * @return
 	 */
-	private static ApplicationContextLocator locateAppContextLocator(Properties properties) {
+	private static ApplicationContextLocator locateAppContextLocator(Properties properties, Logger logger) {
 		ApplicationContextLocator applicationContextLocator = null;
 		
 		/* See if the property is set. */
 		if (properties.getProperty(ApplicationContextLocator.class.getName())==null) {
+			
+			logger.debug("System property was not found, using service laoder");
 			
 			/* if the property is not set, try to use the ServiceLoader to find the implementation. */
 			ServiceLoader<ApplicationContextLocator> instances = ServiceLoader.load(ApplicationContextLocator.class);
@@ -95,21 +117,23 @@ public class ApplicationContextLocatorManager {
 			if (iterator.hasNext()) {
 				
 				/* If we have one, assign it. */
-				applicationContextLocator = instances.iterator().next();
+				applicationContextLocator = iterator.next();
 				
 				/* If there is more than one, than somebody messed something up in their build. Let them know. */
 				if (iterator.hasNext()) {
 					throw new IllegalStateException("There is more than one instance of " + ApplicationContextLocator.class.getName());
 				}
 			} else {
+				logger.debug("ServiceLoader did not find either so now use the default");
 				/* If one could not be found, go ahead and supply the default. */
 				applicationContextLocator = new ApplicationContextLocatorImpl();
 			}
 		} else {
+			
 			/* If the property was found, then they want to use a specific implementation. 
 			 * Instantiate this using reflection. */
 			applicationContextLocator = instantiateUsingReflection(properties,
-					applicationContextLocator); 
+					applicationContextLocator, logger); 
 		}
 		
 		return applicationContextLocator;
@@ -119,12 +143,15 @@ public class ApplicationContextLocatorManager {
 	 * Method that creates an instance of ApplicationContextLocator using the value of properties.get(ApplicationContextLocator.class.getName())
 	 * @param properties
 	 * @param applicationContextLocator
+	 * @param logger 
 	 * @return
 	 */
 	private static ApplicationContextLocator instantiateUsingReflection(Properties properties,
-			ApplicationContextLocator applicationContextLocator) {
+			ApplicationContextLocator applicationContextLocator, Logger logger) {
 		try {
-			applicationContextLocator = (ApplicationContextLocator) Class.forName(properties.getProperty(ApplicationContextLocator.class.getName())).newInstance();
+			String clazz = properties.getProperty(ApplicationContextLocator.class.getName());
+			logger.debug("Loading class %s as the ApplicationContextLocator", clazz);
+			applicationContextLocator = (ApplicationContextLocator) Class.forName(clazz).newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

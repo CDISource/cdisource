@@ -79,6 +79,10 @@ public interface BeanContainer {
 	 *         beans.
 	 */
 	public BeanNamespace getBeanNamespace();
+	
+	
+	public void startScope(Class<?> scope);
+	public void stopScope(Class<?> scope);
 
 	
 

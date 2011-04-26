@@ -8,7 +8,6 @@ import org.cdisource.springintegration.springsupport.ApplicationContextLocatorMa
 import org.cdisource.springintegration.springsupport.ApplicationContextLocatorImpl;
 import org.cdisource.testing.junit.CdiTestRunner;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
@@ -25,12 +24,6 @@ public class SpringIntegrationExtentionTest {
 	
 	ApplicationContext context;
 	
-	@Before
-	public void setUp() {
-		context = new ClassPathXmlApplicationContext("springIntoCdiApplicationContext.xml");
-		ApplicationContextLocatorImpl.putContext(context);
-	}
-
 	@After
 	public void tearDown() {
 		ApplicationContextLocatorImpl.putContext(null);
@@ -38,6 +31,9 @@ public class SpringIntegrationExtentionTest {
 	
 	@Test
 	public void testSpringQualifier() {
+		context = new ClassPathXmlApplicationContext("springIntoCdiApplicationContext.xml");
+		ApplicationContextLocatorImpl.putContext(context);
+
 		assertNotNull(beanContainer);
 		assertNotNull(ApplicationContextLocatorManager.getInstance().locateApplicationContext());
 		CdiBeanThatHasSpringInjection springInjection = beanContainer.getBeanByType(CdiBeanThatHasSpringInjection.class);

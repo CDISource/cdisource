@@ -3,7 +3,7 @@ package org.cdisource.springintegration;
 import javax.inject.Inject;
 
 public class CdiBeanThatHasSpringInjection2 {
-	@Inject @Spring(name="fooBar") //Works with Weld and Candi but not OWB
+	@Inject @Spring(name="fooBar7") //Works with Weld and Candi but not OWB
 	FooSpringBean springBean;
 
 	

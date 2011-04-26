@@ -10,9 +10,7 @@
 	<context:spring-configured />
 	<context:component-scan base-package="org.cdisource.springapp" />
 	
-	<bean class="org.cdisource.springintegration.CdiBeanFactoryPostProcessor" >
-		<property name="useJNDI" value="false" />
-	</bean>
+	<bean class="org.cdisource.springintegration.CdiBeanFactoryPostProcessor" />
 
 	<bean id="springBeanAuto" class="org.cdisource.springintegration.SpringBeanUsingAutoWired"  />
 	
@@ -24,6 +22,7 @@
 	
 	<bean name="fooBar" class="org.cdisource.springintegration.FooSpringBean"/>	 
 	
+	<bean name="fooBar7" class="org.cdisource.springintegration.FooSpringBean"/>	 
 
 	 
 </beans>

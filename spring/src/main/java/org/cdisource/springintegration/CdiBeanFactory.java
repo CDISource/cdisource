@@ -42,13 +42,11 @@ public class CdiBeanFactory extends DefaultListableBeanFactory {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object getBean(String name, Class requiredType, Object... args) {
-		System.out.println("#########################         CALLED????" + name + "required type " + requiredType);
 		return beanContainer().getBeanByName(requiredType, name);
 	}
 
 	@Override
 	public <T> T getBean(Class<T> type) {
-		System.out.println("###########################      CALLED getBean " + type);
 		return beanContainer().getBeanByType(type);
 	}
 

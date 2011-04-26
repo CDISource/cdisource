@@ -11,19 +11,11 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 
-//TODO figure out if the bean is coming from CDI or Spring or not
 public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	
 	private boolean useLongName;
 
 	private BeanManagerLocationUtil beanManagerLocationUtil = new BeanManagerLocationUtil();
-	private boolean useJNDI = true;
-
-
-	public void setUseJNDI(boolean useJNDI) {
-		this.beanManagerLocationUtil.setUseJNDI(useJNDI);
-		this.useJNDI = useJNDI;
-	}
 
 
 	@Override
@@ -43,7 +35,6 @@ public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 			}
 			BeanDefinitionBuilder definition = BeanDefinitionBuilder.rootBeanDefinition(CdiFactoryBean.class)
 						.addPropertyValue("beanClass", bean.getBeanClass())
-						.addPropertyValue("useJNDI", this.useJNDI)
 						.setLazyInit(true);
 			String name = generateName(bean);
 			factory.registerBeanDefinition(name, definition.getBeanDefinition());

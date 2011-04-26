@@ -2,8 +2,11 @@ package org.cdisource.beancontainer;
 
 import java.lang.annotation.Annotation;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.spi.Context;
 import javax.enterprise.inject.spi.BeanManager;
+
+import com.caucho.resin.BeanContainerRequest;
 
 public class ResinBeanContainer extends AbstractBeanContainer {
 	
@@ -37,5 +40,27 @@ public class ResinBeanContainer extends AbstractBeanContainer {
 	protected void doStop() {
 		delegate.close();		
 	}
+	
+	ThreadLocal<BeanContainerRequest> requestScopeHolder = new ThreadLocal<BeanContainerRequest>();
+	@Override
+	public void startScope(Class<?> scope) {
+		if (scope == RequestScoped.class) {
+			BeanContainerRequest beginRequest = delegate.beginRequest();
+			requestScopeHolder.set(beginRequest);
+		}else {
+			//...
+		}
+	}
+
+	@Override
+	public void stopScope(Class<?> scope) {
+		if (scope == RequestScoped.class) {
+			requestScopeHolder.set(null);
+		} else {
+			//...
+		}
+		
+	}
+
 
 }

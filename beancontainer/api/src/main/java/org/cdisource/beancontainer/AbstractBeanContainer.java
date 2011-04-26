@@ -186,5 +186,13 @@ public abstract class AbstractBeanContainer implements BeanContainer, BeanManage
 	 * particular CDI implementation.
 	 */
 	protected abstract void doStop();
+	
+	@Override
+	public void startScope(Class<?> scope) {
+	}
+
+	@Override
+	public void stopScope(Class<?> scope) {
+	}
 
 }

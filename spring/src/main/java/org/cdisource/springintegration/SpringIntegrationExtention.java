@@ -17,7 +17,6 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.enterprise.inject.spi.InjectionTarget;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.context.Dependent;
@@ -41,9 +40,6 @@ public class SpringIntegrationExtention implements Extension {
 				if (!(point.getType() instanceof Class<?>)) {
 					continue;
 				}
-				
-				//TODO add springBeans.contains so I can check before creating if I need to create
-				//this means externalizing the key gen into a helper method
 				
 				Class<?> injectionType = (Class<?>) point.getType();
 				Spring spring = point.getAnnotated().getAnnotation(Spring.class);
@@ -86,32 +82,26 @@ public class SpringIntegrationExtention implements Extension {
 
 		AnnotatedType<?> annotatedType;
 		
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		SpringBean(AnnotatedType<?> annotatedType, Spring spring, Class<?> injectionType, BeanManager bm){
 			this.spring = spring;
 			this.injectionType = injectionType;
 			this.bm = bm;
-			AnnotatedType at = bm.createAnnotatedType(injectionType);
 			this.annotatedType = annotatedType;
 			//it = bm.createInjectionTarget(at);
 		}
 		
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public SpringBean(SpringLookup springLookup, Class<?> type,
 				BeanManager bm) {
 			this.lookup = springLookup;
 			this.injectionType = type;
 			this.bm = bm;
-			AnnotatedType at = bm.createAnnotatedType(injectionType);
-			//it = bm.createInjectionTarget(at);
-
 		}
 
 		public String key () {
 			return "" + this.getName() + "::" + injectionType.toString();
 		}
 		
-		@SuppressWarnings("serial")
+		@SuppressWarnings("all")
 		class NamedLiteral extends AnnotationLiteral<Named> implements Named {
 
 			@Override
@@ -182,6 +172,11 @@ public class SpringIntegrationExtention implements Extension {
 		public Object create(CreationalContext<Object> ctx) {
 			ApplicationContext applicationContext = ApplicationContextLocatorManager.getInstance().locateApplicationContext();
 			if  (applicationContext==null) {
+				if (spring !=null) {
+					System.err.printf("############## spring name=%s type=%s \n\n\n", spring.name(), spring.type());
+				} else {
+					System.err.printf("############## lookup value=%s \n\n\n", lookup.value());					
+				}
 				throw new IllegalStateException("applicationContext was null");
 			}
 			Object instance = null;
@@ -200,20 +195,16 @@ public class SpringIntegrationExtention implements Extension {
 			} else {
 				instance = applicationContext.getBean(lookup.value());				
 			}
-			//it.inject(instance, ctx); 
-			//it.postConstruct(instance); 
 			return instance;
 		}
 
 		@Override
 		public void destroy(Object instance, CreationalContext<Object> ctx) {
-			//it.preDestroy(instance);
-			//it.dispose(instance); 
 			ctx.release();
 		}
 
 		public String toString() {
-			return "SpringBean(annotatedType="+ annotatedType.toString() +"key=" + this.key() +")";
+			return String.format("SpringBean(hc=%d, hc=%d, annotatedType=%s, qualifiers=%s)", this.hashCode(), SpringIntegrationExtention.this.hashCode(), this.annotatedType, this.getQualifiers() );
 		}
 		
 	}
