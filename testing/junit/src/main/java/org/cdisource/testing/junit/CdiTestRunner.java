@@ -4,6 +4,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.cdisource.beancontainer.BeanContainer;
+import org.cdisource.beancontainer.BeanContainerImpl;
 import org.cdisource.beancontainer.BeanContainerManager;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunNotifier;
@@ -48,7 +49,6 @@ public class CdiTestRunner extends BlockJUnit4ClassRunner {
 
 	private static BeanContainer beanContainer;
 	
-	private RunConfig runConfig;
 
 	/**
 	 * Lazy initializes a bean container that exists on the classpath. 
@@ -56,17 +56,19 @@ public class CdiTestRunner extends BlockJUnit4ClassRunner {
 	 * 
 	 * @return instance of the CDI Bean container
 	 */
-	public static BeanContainer getBeanContainer() {		
+	public static BeanContainer getBeanContainer() {
+			BeanContainerManager.testEnv();
 			if (beanContainer == null) {
 				beanContainer = BeanContainerManager.getInstance();
 			}
+			
 			return beanContainer;
 	}
 
 	@Override
 	protected Object createTest() throws Exception {
 		Class<?> clazz = getTestClass().getJavaClass();
-		this.runConfig = clazz.getAnnotation(RunConfig.class);
+		//this.runConfig = clazz.getAnnotation(RunConfig.class);
 		
 		Object result = getBeanContainer().getBeanByType(clazz);
 		if (result == null) {

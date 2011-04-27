@@ -2,10 +2,15 @@ package org.cdisource.beancontainer;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.ref.WeakReference;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Properties;
 import java.util.ServiceLoader;
+import java.util.WeakHashMap;
 
 import org.cdisource.logging.Logger;
+
 
 import static org.cdisource.logging.LogFactoryManager.logger;
 
@@ -54,10 +59,15 @@ public class BeanContainerManager {
 	/** Property name that we use to look up the bean container override. */
 	public static String PROP_NAME = "org.cdisource.beancontainer.BeanContainer";
 
-	/**
-	 * Holds a singleton instance of a {@link BeanContainer}
-	 */
-	private static BeanContainer instance;
+	private static Map<ClassLoader, WeakReference<BeanContainer>> map = Collections
+	.synchronizedMap(new WeakHashMap<ClassLoader, WeakReference<BeanContainer>>());
+	
+	private static boolean useStatic = false;
+	private static BeanContainer beanContainer;
+	
+	public static void testEnv() {
+		useStatic=true;
+	}
 
 	/**
 	 * Thread safe method to create and initialize the {@link BeanContainer}
@@ -78,10 +88,6 @@ public class BeanContainerManager {
 	 */
 	public synchronized static void initialize(Properties properties) {
 		log.trace("initialize(properties)");
-
-		if (instance != null) {
-			return;
-		}
 		startUpInstance(properties);
 
 	}
@@ -101,14 +107,32 @@ public class BeanContainerManager {
 	 * @see {@link BeanContainerManager#initialize()}
 	 * */
 	public static BeanContainer getInstance() {
-		log.trace("getInstance() called");
-		if (instance == null) {
-			log.debug("getInstance():: instance was null");
-			initialize();
+		
+		if (useStatic && beanContainer!=null) {
+			return beanContainer;
 		}
-		log.debug("getInstance():: instance is null? %s", instance == null ? "yes" : "no");
-		return instance;
+		log.trace("getInstance() called");
+		synchronized (map) {
+			WeakReference<BeanContainer> weakReference = map.get(Thread.currentThread().getContextClassLoader());
+			if (weakReference==null || weakReference.get()==null) {
+				log.debug("getInstance():: instance was null");
+				initialize();
+			}
+			return beanContainer();			
+		}
 	}
+
+	private static BeanContainer beanContainer() {
+		if (useStatic && beanContainer!=null) {
+			return beanContainer;
+		}
+		WeakReference<BeanContainer> weakReference = map.get(Thread.currentThread().getContextClassLoader());
+		if (weakReference== null || weakReference.get() == null) {
+			throw new IllegalStateException("WeakReference<BeanContainer> is not set");
+		}
+		return weakReference.get();
+	}
+
 
     /**
      * Create the bean container instance using system properties. If this method
@@ -140,14 +164,15 @@ public class BeanContainerManager {
 	 */
 	private synchronized static void startUpInstance(Properties properties) {
 		log.trace("startUpInstance(properties)");
-		// double check that the instance is null, someone might have created
-		// it while we were entering this method.
-		if (instance != null) {
-			return;
-		}
-		instance = generateInstance(properties);
+		BeanContainer instance = generateInstance(properties);
 		if (instance != null) {
 			instance.start();
+		}
+		
+		if (useStatic) {
+			beanContainer= instance;
+		} else {
+			map.put(Thread.currentThread().getContextClassLoader(), new WeakReference<BeanContainer>(instance));
 		}
 	}
 
@@ -213,9 +238,9 @@ public class BeanContainerManager {
 	 * a new instance.
 	 */
 	public static synchronized void shutdown() {
-		if (instance != null) {
-			instance.stop();
-			instance = null;
+		BeanContainer beanContainer = beanContainer();
+		if (beanContainer!=null) {
+			beanContainer.stop();
 		}
 	}
 }

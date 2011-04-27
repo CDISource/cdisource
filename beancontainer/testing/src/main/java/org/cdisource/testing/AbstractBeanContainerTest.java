@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class AbstractBeanContainerTest {
 
-	private BeanContainer beanContainer;
+	private static BeanContainer beanContainer;
 
 	public BeanContainer getBeanContainer() {
 		return beanContainer;
