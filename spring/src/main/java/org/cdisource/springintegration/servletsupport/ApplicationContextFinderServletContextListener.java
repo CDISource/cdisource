@@ -2,7 +2,7 @@ package org.cdisource.springintegration.servletsupport;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+//import javax.servlet.annotation.WebListener;
 
 import org.cdisource.springintegration.springsupport.ApplicationContextLocator;
 import org.cdisource.springintegration.springsupport.ApplicationContextLocatorImpl;
@@ -10,7 +10,7 @@ import org.cdisource.springintegration.springsupport.ApplicationContextLocatorMa
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-@WebListener
+//@WebListener
 public class ApplicationContextFinderServletContextListener implements ServletContextListener {
 
 

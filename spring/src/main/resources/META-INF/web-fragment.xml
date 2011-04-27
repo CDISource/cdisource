@@ -4,10 +4,12 @@
 
 	<name>Spring CDI Bridge</name>
 	
-	<ordering><after><others/></after></ordering>	
+	
+	<!--  <ordering></ordering>	 -->
 	
 	<listener>
-		<display-name></display-name>
+	
+		<display-name>Spring CDI Bridge</display-name>
 		
 		<listener-class>org.cdisource.springintegration.servletsupport.ApplicationContextFinderServletContextListener</listener-class>
 				
