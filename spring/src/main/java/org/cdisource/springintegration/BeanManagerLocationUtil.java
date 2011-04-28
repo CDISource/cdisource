@@ -13,24 +13,29 @@ public class BeanManagerLocationUtil {
 	private BeanManager beanManager;
 
 	BeanManager beanManager() {
-		if (lookupInJNDI() == null) {
-			BeanContainer beanContainer = BeanContainerManager.getInstance();
-			return ((BeanManagerLocator) beanContainer).getBeanManager();
-		} else {
+		if (this.beanManager!=null) {
 			return this.beanManager;
 		}
+		if (lookupInJNDI() == null) {
+			BeanContainer beanContainer = BeanContainerManager.getInstance();
+			this.beanManager = ((BeanManagerLocator) beanContainer)
+					.getBeanManager();
+		}
+		
+		if (this.beanManager==null) {
+			throw new IllegalStateException("BEAN MANAGER IS NULL");
+		}
+		return this.beanManager;
+
 	}
 
 	private BeanManager lookupInJNDI() {
-		if (beanManager == null) {
-			try {
-				InitialContext ic = new InitialContext();
-				return (BeanManager) ic.lookup(BEAN_MANAGER_LOCATION);
-			} catch (Exception e) {
-				return null;
-			}
+		try {
+			InitialContext ic = new InitialContext();
+			return (this.beanManager = (BeanManager) ic.lookup(BEAN_MANAGER_LOCATION));
+		} catch (Exception e) {// need to log this
+			return null;
 		}
-		return this.beanManager;
 	}
 
 }

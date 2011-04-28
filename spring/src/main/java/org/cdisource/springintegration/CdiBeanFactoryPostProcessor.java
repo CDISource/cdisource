@@ -35,6 +35,7 @@ public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 			}
 			BeanDefinitionBuilder definition = BeanDefinitionBuilder.rootBeanDefinition(CdiFactoryBean.class)
 						.addPropertyValue("beanClass", bean.getBeanClass())
+						.addPropertyValue("beanManager", beanManagerLocationUtil.beanManager())
 						.setLazyInit(true);
 			String name = generateName(bean);
 			factory.registerBeanDefinition(name, definition.getBeanDefinition());
