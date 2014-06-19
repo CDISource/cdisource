@@ -1,12 +1,15 @@
 package org.cdisource.springintegration;
 
 
+import java.lang.annotation.Annotation;
+import java.util.Set;
+
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.cdisource.beancontainer.BeanContainer;
 import org.cdisource.beancontainer.BeanContainerImpl;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 
 public class CdiFactoryBean implements FactoryBean<Object>, InitializingBean {
 
@@ -14,7 +17,7 @@ public class CdiFactoryBean implements FactoryBean<Object>, InitializingBean {
 	private boolean singleton = true;
 	private BeanContainer beanContainer;
 	private BeanManager beanManager;
-	
+	private Set<Annotation> qualifiers;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -28,7 +31,7 @@ public class CdiFactoryBean implements FactoryBean<Object>, InitializingBean {
 
 	@Override
 	public Object getObject() throws Exception {
-		return beanContainer.getBeanByType(beanClass);
+		return beanContainer.getBeanByType(beanClass, qualifiers.toArray(new Annotation[]{}));
 	}
 
 	@Override
@@ -49,4 +52,7 @@ public class CdiFactoryBean implements FactoryBean<Object>, InitializingBean {
 		this.beanManager = beanManager;
 	}
 
+	public void setQualifiers(Set<Annotation> qualifiers) {
+		this.qualifiers = qualifiers;
+	}
 }

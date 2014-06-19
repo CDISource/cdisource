@@ -1,17 +1,22 @@
 package org.cdisource.springintegration;
 
+import java.lang.reflect.Type;
 import java.util.Set;
 
 import javax.enterprise.inject.spi.Bean;
-import javax.inject.Named;
+
+import org.cdisource.logging.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
+import static org.cdisource.logging.LogFactoryManager.logger;
 
 public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+	
+	private static Logger logger = logger(CdiBeanFactoryPostProcessor.class);
 	
 	private boolean useLongName;
 
@@ -33,23 +38,40 @@ public class CdiBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 			if (bean.getName()!=null && bean.getName().equals("Spring Injection")){
 				continue;
 			}
+			logger.debug("bean types = {}", bean.getTypes());
+			Class<?> beanClass = getBeanClass(bean);
 			BeanDefinitionBuilder definition = BeanDefinitionBuilder.rootBeanDefinition(CdiFactoryBean.class)
-						.addPropertyValue("beanClass", bean.getBeanClass())
+						.addPropertyValue("beanClass", beanClass)
 						.addPropertyValue("beanManager", beanManagerLocationUtil.beanManager())
+						.addPropertyValue("qualifiers", bean.getQualifiers())
 						.setLazyInit(true);
 			String name = generateName(bean);
 			factory.registerBeanDefinition(name, definition.getBeanDefinition());
+			logger.debug("bean name = {}, bean class = {}", bean.getName(), beanClass.getName());
 		}
 	}
 
+	private Class<?> getBeanClass(Bean<?> bean) {
+		Class<?> klass = Object.class;
+		for (Type type : bean.getTypes()) {
+			if (type instanceof Class) {
+				Class<?> currentClass = (Class<?>) type;
+				if (klass.isAssignableFrom(currentClass)) {
+					klass = currentClass;
+				}
+			}
+		}
+		return klass;
+	}
+
 	private String generateName(Bean<?> bean) {
-		Named named = (Named) bean.getBeanClass().getAnnotation(Named.class);
-		String name = named != null ? named.value() : generateNameBasedOnClassName(bean);
+		String name = bean.getName() != null ? bean.getName() : generateNameBasedOnClassName(bean);
 		return name;
 	}
 
 	private String generateNameBasedOnClassName(Bean<?> bean) {
-		return !useLongName ? bean.getBeanClass().getSimpleName() + "FactoryBean" : bean.getBeanClass().getName().replace(".", "_") + "FactoryBean";
+		Class<?> beanClass = getBeanClass(bean);
+		return !useLongName ? beanClass.getSimpleName() + "FactoryBean" : beanClass.getName().replace(".", "_") + "FactoryBean";
 	}
 
 	

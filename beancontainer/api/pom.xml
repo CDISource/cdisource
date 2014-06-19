@@ -25,8 +25,7 @@
    		<groupId>javax.enterprise</groupId>
    		<artifactId>cdi-api</artifactId>
    		<version>1.0-SP1</version>
-   		<type>jar</type>
-   		<scope>compile</scope>
+   		<scope>provided</scope>
    	</dependency>
    	<dependency>
    		<groupId>junit</groupId>
